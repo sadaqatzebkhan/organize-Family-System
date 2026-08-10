@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { X, Printer, Download, Mail, Phone, User, BookOpen, Shield, Code, Sparkles, Award } from 'lucide-react';
 import { Person, FamilyBranch } from '../types';
+import { DEVELOPER_PHOTO } from '../assets/developerPhoto';
 
 interface PdfExportModalProps {
   isOpen: boolean;
@@ -145,13 +146,9 @@ export const PdfExportModal: React.FC<PdfExportModalProps> = ({
                   <div className="shrink-0 text-center space-y-2">
                     <div className="relative w-32 h-40 rounded-lg overflow-hidden border-2 border-[#1a1a1a] shadow-md bg-gray-100 mx-auto">
                       <img
-                        src="/developer_sadaqat.jpg.jpeg"
+                        src={DEVELOPER_PHOTO}
                         alt="Sadaqat Zeb Khan"
                         className="w-full h-full object-cover"
-                        onError={(e) => {
-                          // Fallback to /developer_sadaqat.jpg if needed
-                          (e.currentTarget as HTMLImageElement).src = '/developer_sadaqat.jpg';
-                        }}
                       />
                     </div>
                     <span className="inline-block text-[10px] font-mono bg-gray-100 text-gray-700 px-2 py-0.5 rounded border border-gray-300">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Network, Users, GitFork, Heart, ArrowRight, BookOpen, FileText, Phone, Mail, Code, Award } from 'lucide-react';
 import { Person, FamilyBranch } from '../types';
+import { DEVELOPER_PHOTO } from '../assets/developerPhoto';
 
 interface HomePageProps {
   stats: {
@@ -148,7 +149,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="shrink-0 text-center space-y-3">
             <div className="relative w-40 h-52 rounded-xl overflow-hidden border-2 border-[#1a1a1a] shadow-lg bg-gray-200 mx-auto">
               <img
-                src="/developer_sadaqat.jpg.jpeg"
+                src={DEVELOPER_PHOTO}
                 alt="Sadaqat Zeb Khan"
                 className="w-full h-full object-cover"
               />
