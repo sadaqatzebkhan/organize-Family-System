@@ -1,0 +1,1545 @@
+{
+  "people": [
+    {
+      "id": "p_door",
+      "fullName": "Door Muhammad Khan",
+      "generation": 1,
+      "branchId": "branch_door",
+      "branchName": "Door Muhammad Khan Branch",
+      "aliveStatus": "deceased",
+      "biography": "One of the three founding patriarch brothers of the Mazid Khail family.",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_noor",
+      "fullName": "Noor Muhammad Shah",
+      "generation": 1,
+      "branchId": "branch_noor",
+      "branchName": "Noor Muhammad Shah Branch",
+      "aliveStatus": "deceased",
+      "biography": "One of the three founding patriarch brothers of the Mazid Khail family.",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_yar",
+      "fullName": "Yar Muhammad Shah",
+      "generation": 1,
+      "branchId": "branch_yar",
+      "branchName": "Yar Muhammad Shah Branch",
+      "aliveStatus": "deceased",
+      "biography": "One of the three founding patriarch brothers of the Mazid Khail family.",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_gujar",
+      "fullName": "Gujar Khan",
+      "fatherId": "p_door",
+      "generation": 2,
+      "branchId": "branch_gujar",
+      "branchName": "Gujar Khan Sub-Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_saho",
+      "fullName": "Saho Khan",
+      "fatherId": "p_door",
+      "generation": 2,
+      "branchId": "branch_saho",
+      "branchName": "Saho Khan Sub-Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_zareen",
+      "fullName": "Zareen",
+      "fatherId": "p_noor",
+      "generation": 2,
+      "branchId": "branch_noor",
+      "branchName": "Noor Muhammad Shah Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_fazal_shah",
+      "fullName": "Fazal Shah",
+      "fatherId": "p_noor",
+      "generation": 2,
+      "branchId": "branch_noor",
+      "branchName": "Noor Muhammad Shah Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_gul_m_shah",
+      "fullName": "Gul M. Shah",
+      "fatherId": "p_yar",
+      "generation": 2,
+      "branchId": "branch_yar",
+      "branchName": "Yar Muhammad Shah Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_m_arif_khan",
+      "fullName": "M. Arif Khan",
+      "fatherId": "p_yar",
+      "generation": 2,
+      "branchId": "branch_yar",
+      "branchName": "Yar Muhammad Shah Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_noor_m_shah",
+      "fullName": "Noor M. Shah",
+      "fatherId": "p_yar",
+      "generation": 2,
+      "branchId": "branch_yar",
+      "branchName": "Yar Muhammad Shah Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_saeed_arif",
+      "fullName": "Saeed Arif",
+      "fatherId": "p_yar",
+      "generation": 2,
+      "branchId": "branch_yar",
+      "branchName": "Yar Muhammad Shah Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_gul_m_jan",
+      "fullName": "Gul Muhammad Jan",
+      "fatherId": "p_gujar",
+      "generation": 3,
+      "branchId": "branch_gujar",
+      "branchName": "Gujar Khan Sub-Branch",
+      "aliveStatus": "deceased",
+      "notes": "Photo preserved in original family record document.",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_khan_faqeer",
+      "fullName": "Khan Faqeer",
+      "fatherId": "p_gujar",
+      "generation": 3,
+      "branchId": "branch_gujar",
+      "branchName": "Gujar Khan Sub-Branch",
+      "aliveStatus": "deceased",
+      "notes": "Also recorded as K-Faqeer.",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_zarfaraz",
+      "fullName": "Zarfaraz Khan",
+      "fatherId": "p_gujar",
+      "generation": 3,
+      "branchId": "branch_zarfaraz",
+      "branchName": "Zarfaraz Khan Sub-Branch",
+      "deathDate": "2003-05-11",
+      "aliveStatus": "deceased",
+      "notes": "Death Date recorded as 11-05-2003 in family archives. Photo preserved.",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_lal_faraz",
+      "fullName": "Lal Faraz Khan",
+      "fatherId": "p_gujar",
+      "generation": 3,
+      "branchId": "branch_lal_faraz",
+      "branchName": "Lal Faraz Khan Sub-Branch",
+      "aliveStatus": "deceased",
+      "notes": "Recorded as Lal faraz.K in family archives. Photo preserved.",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_anwar_faraz",
+      "fullName": "Anwar Faraz Khan",
+      "fatherId": "p_gujar",
+      "generation": 3,
+      "branchId": "branch_anwar_faraz",
+      "branchName": "Anwar Faraz Khan Sub-Branch",
+      "deathDate": "2013-12-31",
+      "aliveStatus": "deceased",
+      "notes": "Death Date recorded as 31-12-2013 in family archives. Photo preserved.",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_m_nawaz",
+      "fullName": "Muhammad Nawaz Khan",
+      "fatherId": "p_gujar",
+      "generation": 3,
+      "branchId": "branch_nawaz",
+      "branchName": "Muhammad Nawaz Khan Sub-Branch",
+      "birthDate": "1947",
+      "aliveStatus": "alive",
+      "notes": "Recorded in archives: Birth 1947, Status: Alive. Photo preserved.",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_m_darviz",
+      "fullName": "Muhammad Darviz Khan",
+      "fatherId": "p_gul_m_jan",
+      "generation": 4,
+      "branchId": "branch_gujar",
+      "branchName": "Gujar Khan Sub-Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_abdul_manan",
+      "fullName": "Abdul Manan",
+      "fatherId": "p_gul_m_jan",
+      "generation": 4,
+      "branchId": "branch_gujar",
+      "branchName": "Gujar Khan Sub-Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_talib_jan",
+      "fullName": "Talib Jan",
+      "fatherId": "p_gul_m_jan",
+      "generation": 4,
+      "branchId": "branch_gujar",
+      "branchName": "Gujar Khan Sub-Branch",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_sultan_khan",
+      "fullName": "Sultan Khan",
+      "fatherId": "p_zarfaraz",
+      "generation": 4,
+      "branchId": "branch_zarfaraz",
+      "branchName": "Zarfaraz Khan Sub-Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_m_alam_khan",
+      "fullName": "Muhammad Alam Khan",
+      "fatherId": "p_zarfaraz",
+      "generation": 4,
+      "branchId": "branch_zarfaraz",
+      "branchName": "Zarfaraz Khan Sub-Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_saeed_bacha",
+      "fullName": "Saeed Bacha",
+      "fatherId": "p_zarfaraz",
+      "generation": 4,
+      "branchId": "branch_zarfaraz",
+      "branchName": "Zarfaraz Khan Sub-Branch",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_gul_bacha",
+      "fullName": "Gul Bacha",
+      "fatherId": "p_zarfaraz",
+      "generation": 4,
+      "branchId": "branch_zarfaraz",
+      "branchName": "Zarfaraz Khan Sub-Branch",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_zarawar_khan",
+      "fullName": "Zarawar Khan",
+      "fatherId": "p_lal_faraz",
+      "generation": 4,
+      "branchId": "branch_lal_faraz",
+      "branchName": "Lal Faraz Khan Sub-Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_sultan_bacha",
+      "fullName": "Sultan Bacha",
+      "fatherId": "p_lal_faraz",
+      "generation": 4,
+      "branchId": "branch_lal_faraz",
+      "branchName": "Lal Faraz Khan Sub-Branch",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_mehtab_khan",
+      "fullName": "Mehtab Khan",
+      "fatherId": "p_anwar_faraz",
+      "generation": 4,
+      "branchId": "branch_anwar_faraz",
+      "branchName": "Anwar Faraz Khan Sub-Branch",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_nawshad_khan",
+      "fullName": "Nawshad Khan",
+      "fatherId": "p_anwar_faraz",
+      "generation": 4,
+      "branchId": "branch_anwar_faraz",
+      "branchName": "Anwar Faraz Khan Sub-Branch",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_walayat_khan",
+      "fullName": "Walayat Khan",
+      "fatherId": "p_anwar_faraz",
+      "generation": 4,
+      "branchId": "branch_anwar_faraz",
+      "branchName": "Anwar Faraz Khan Sub-Branch",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_ihsan_ullah",
+      "fullName": "Ihsan Ullah",
+      "fatherId": "p_anwar_faraz",
+      "generation": 4,
+      "branchId": "branch_anwar_faraz",
+      "branchName": "Anwar Faraz Khan Sub-Branch",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_rahman_ullah",
+      "fullName": "Rahman Ullah",
+      "fatherId": "p_anwar_faraz",
+      "generation": 4,
+      "branchId": "branch_anwar_faraz",
+      "branchName": "Anwar Faraz Khan Sub-Branch",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_akbar_zada",
+      "fullName": "Akbar Zada",
+      "fatherId": "p_m_nawaz",
+      "generation": 4,
+      "branchId": "branch_nawaz",
+      "branchName": "Muhammad Nawaz Khan Sub-Branch",
+      "aliveStatus": "deceased",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_amir_zada",
+      "fullName": "Amir Zada",
+      "fatherId": "p_m_nawaz",
+      "generation": 4,
+      "branchId": "branch_nawaz",
+      "branchName": "Muhammad Nawaz Khan Sub-Branch",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_abid_ullah",
+      "fullName": "Abid Ullah",
+      "fatherId": "p_m_darviz",
+      "generation": 5,
+      "branchId": "branch_gujar",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_saeed_ullah",
+      "fullName": "Saeed Ullah",
+      "fatherId": "p_m_darviz",
+      "generation": 5,
+      "branchId": "branch_gujar",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_ibrahim_khan",
+      "fullName": "Ibrahim Khan",
+      "fatherId": "p_m_darviz",
+      "generation": 5,
+      "branchId": "branch_gujar",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_abid_urahman",
+      "fullName": "Abid Urahman",
+      "fatherId": "p_abdul_manan",
+      "generation": 5,
+      "branchId": "branch_gujar",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_saeed_urahman",
+      "fullName": "Saeed Urahman",
+      "fatherId": "p_abdul_manan",
+      "generation": 5,
+      "branchId": "branch_gujar",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_najeeb_khan",
+      "fullName": "Najeeb Khan",
+      "fatherId": "p_abdul_manan",
+      "generation": 5,
+      "branchId": "branch_gujar",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_attaurahman",
+      "fullName": "Attaurahman",
+      "fatherId": "p_abdul_manan",
+      "generation": 5,
+      "branchId": "branch_gujar",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_bilal",
+      "fullName": "Bilal",
+      "fatherId": "p_talib_jan",
+      "generation": 5,
+      "branchId": "branch_gujar",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_muzamil",
+      "fullName": "Muzamil",
+      "fatherId": "p_talib_jan",
+      "generation": 5,
+      "branchId": "branch_gujar",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_rehan",
+      "fullName": "Rehan",
+      "fatherId": "p_talib_jan",
+      "generation": 5,
+      "branchId": "branch_gujar",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_bacha_nat_khan",
+      "fullName": "Bacha Nat Khan",
+      "fatherId": "p_sultan_khan",
+      "generation": 5,
+      "branchId": "branch_zarfaraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_hasham_khan",
+      "fullName": "Hasham Khan",
+      "fatherId": "p_sultan_khan",
+      "generation": 5,
+      "branchId": "branch_zarfaraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_sultan_muhammad",
+      "fullName": "Sultan Muhammad",
+      "fatherId": "p_sultan_khan",
+      "generation": 5,
+      "branchId": "branch_zarfaraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_ajab_khan",
+      "fullName": "Ajab Khan",
+      "fatherId": "p_m_alam_khan",
+      "generation": 5,
+      "branchId": "branch_zarfaraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_adam_khan",
+      "fullName": "Adam Khan",
+      "fatherId": "p_m_alam_khan",
+      "generation": 5,
+      "branchId": "branch_zarfaraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_lal_bacha",
+      "fullName": "Lal Bacha",
+      "fatherId": "p_saeed_bacha",
+      "generation": 5,
+      "branchId": "branch_zarfaraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_suleman_khan",
+      "fullName": "Suleman Khan",
+      "fatherId": "p_gul_bacha",
+      "generation": 5,
+      "branchId": "branch_zarfaraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_roman_khan",
+      "fullName": "Roman Khan",
+      "fatherId": "p_gul_bacha",
+      "generation": 5,
+      "branchId": "branch_zarfaraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_luqman_khan",
+      "fullName": "Luqman Khan",
+      "fatherId": "p_gul_bacha",
+      "generation": 5,
+      "branchId": "branch_zarfaraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_usam_khan",
+      "fullName": "Usam Khan",
+      "fatherId": "p_gul_bacha",
+      "generation": 5,
+      "branchId": "branch_zarfaraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_alam_zeb",
+      "fullName": "Alam Zeb",
+      "fatherId": "p_zarawar_khan",
+      "generation": 5,
+      "branchId": "branch_lal_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_umar_zeb",
+      "fullName": "Umar Zeb",
+      "fatherId": "p_zarawar_khan",
+      "generation": 5,
+      "branchId": "branch_lal_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_raham_zeb",
+      "fullName": "Raham Zeb",
+      "fatherId": "p_zarawar_khan",
+      "generation": 5,
+      "branchId": "branch_lal_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_inayat_zeb",
+      "fullName": "Inayat Zeb",
+      "fatherId": "p_zarawar_khan",
+      "generation": 5,
+      "branchId": "branch_lal_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_shan_zeb",
+      "fullName": "Shan Zeb",
+      "fatherId": "p_zarawar_khan",
+      "generation": 5,
+      "branchId": "branch_lal_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_akram_zeb",
+      "fullName": "Akram Zeb",
+      "fatherId": "p_zarawar_khan",
+      "generation": 5,
+      "branchId": "branch_lal_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_mubarak_zeb",
+      "fullName": "Mubarak Zeb",
+      "fatherId": "p_zarawar_khan",
+      "generation": 5,
+      "branchId": "branch_lal_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_umar_farooq",
+      "fullName": "Umar Farooq",
+      "fatherId": "p_sultan_bacha",
+      "generation": 5,
+      "branchId": "branch_lal_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_umar_sadiq",
+      "fullName": "Umar Sadiq",
+      "fatherId": "p_sultan_bacha",
+      "generation": 5,
+      "branchId": "branch_lal_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_khalid_sultan",
+      "fullName": "Khalid Sultan",
+      "fatherId": "p_sultan_bacha",
+      "generation": 5,
+      "branchId": "branch_lal_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_sajid",
+      "fullName": "Sajid",
+      "fatherId": "p_sultan_bacha",
+      "generation": 5,
+      "branchId": "branch_lal_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_abass",
+      "fullName": "Abass",
+      "fatherId": "p_sultan_bacha",
+      "generation": 5,
+      "branchId": "branch_lal_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_usman_ullah",
+      "fullName": "Usman Ullah",
+      "fatherId": "p_mehtab_khan",
+      "generation": 5,
+      "branchId": "branch_anwar_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_bacha_zeb",
+      "fullName": "Bacha Zeb",
+      "fatherId": "p_mehtab_khan",
+      "generation": 5,
+      "branchId": "branch_anwar_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_irshad_khan",
+      "fullName": "Irshad Khan",
+      "fatherId": "p_nawshad_khan",
+      "generation": 5,
+      "branchId": "branch_anwar_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_zakria_khan",
+      "fullName": "Zakria Khan",
+      "fatherId": "p_nawshad_khan",
+      "generation": 5,
+      "branchId": "branch_anwar_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_shakir_ullah",
+      "fullName": "Shakir Ullah",
+      "fatherId": "p_walayat_khan",
+      "generation": 5,
+      "branchId": "branch_anwar_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_imran_shahid",
+      "fullName": "Imran Shahid",
+      "fatherId": "p_walayat_khan",
+      "generation": 5,
+      "branchId": "branch_anwar_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_kamran_shahid",
+      "fullName": "Kamran Shahid",
+      "fatherId": "p_walayat_khan",
+      "generation": 5,
+      "branchId": "branch_anwar_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_adnan_shahid",
+      "fullName": "Adnan Shahid",
+      "fatherId": "p_walayat_khan",
+      "generation": 5,
+      "branchId": "branch_anwar_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_salman_shahid",
+      "fullName": "Salman Shahid",
+      "fatherId": "p_ihsan_ullah",
+      "generation": 5,
+      "branchId": "branch_anwar_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_mehran_shahid",
+      "fullName": "Mehran Shahid",
+      "fatherId": "p_ihsan_ullah",
+      "generation": 5,
+      "branchId": "branch_anwar_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_saeed_ahmad",
+      "fullName": "Saeed Ahmad",
+      "fatherId": "p_ihsan_ullah",
+      "generation": 5,
+      "branchId": "branch_anwar_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_muhammad_rayan",
+      "fullName": "Muhammad Rayan",
+      "fatherId": "p_rahman_ullah",
+      "generation": 5,
+      "branchId": "branch_anwar_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_muhammad_hamdan",
+      "fullName": "Muhammad Hamdan",
+      "fatherId": "p_rahman_ullah",
+      "generation": 5,
+      "branchId": "branch_anwar_faraz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_sultan_zeb_khan",
+      "fullName": "Sultan Zeb Khan",
+      "fatherId": "p_akbar_zada",
+      "generation": 5,
+      "branchId": "branch_nawaz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_shahid_zeb_khan",
+      "fullName": "Shahid Zeb Khan",
+      "fatherId": "p_akbar_zada",
+      "generation": 5,
+      "branchId": "branch_nawaz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_tahir_zeb_khan",
+      "fullName": "Tahir Zeb Khan",
+      "fatherId": "p_amir_zada",
+      "generation": 5,
+      "branchId": "branch_nawaz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_sadaqat_zeb_khan",
+      "fullName": "Sadaqat Zeb Khan",
+      "fatherId": "p_amir_zada",
+      "generation": 5,
+      "branchId": "branch_nawaz",
+      "aliveStatus": "alive",
+      "biography": "Author/compiler of the Mazid Khail family history record.",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_liaqat_zeb_khan",
+      "fullName": "Liaqat Zeb Khan",
+      "fatherId": "p_amir_zada",
+      "generation": 5,
+      "branchId": "branch_nawaz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_hidayat_zeb_khan",
+      "fullName": "Hidayat Zeb Khan",
+      "fatherId": "p_amir_zada",
+      "generation": 5,
+      "branchId": "branch_nawaz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "p_ahmad_zeb_khan",
+      "fullName": "Ahmad Zeb Khan",
+      "fatherId": "p_amir_zada",
+      "generation": 5,
+      "branchId": "branch_nawaz",
+      "aliveStatus": "alive",
+      "createdAt": "2026-08-10T01:30:19.372Z",
+      "updatedAt": "2026-08-10T01:30:19.372Z"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel_p_door_p_gujar",
+      "type": "parent_child",
+      "personId1": "p_door",
+      "personId2": "p_gujar",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_door_p_saho",
+      "type": "parent_child",
+      "personId1": "p_door",
+      "personId2": "p_saho",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_noor_p_zareen",
+      "type": "parent_child",
+      "personId1": "p_noor",
+      "personId2": "p_zareen",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_noor_p_fazal_shah",
+      "type": "parent_child",
+      "personId1": "p_noor",
+      "personId2": "p_fazal_shah",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_yar_p_gul_m_shah",
+      "type": "parent_child",
+      "personId1": "p_yar",
+      "personId2": "p_gul_m_shah",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_yar_p_m_arif_khan",
+      "type": "parent_child",
+      "personId1": "p_yar",
+      "personId2": "p_m_arif_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_yar_p_noor_m_shah",
+      "type": "parent_child",
+      "personId1": "p_yar",
+      "personId2": "p_noor_m_shah",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_yar_p_saeed_arif",
+      "type": "parent_child",
+      "personId1": "p_yar",
+      "personId2": "p_saeed_arif",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_gujar_p_gul_m_jan",
+      "type": "parent_child",
+      "personId1": "p_gujar",
+      "personId2": "p_gul_m_jan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_gujar_p_khan_faqeer",
+      "type": "parent_child",
+      "personId1": "p_gujar",
+      "personId2": "p_khan_faqeer",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_gujar_p_zarfaraz",
+      "type": "parent_child",
+      "personId1": "p_gujar",
+      "personId2": "p_zarfaraz",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_gujar_p_lal_faraz",
+      "type": "parent_child",
+      "personId1": "p_gujar",
+      "personId2": "p_lal_faraz",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_gujar_p_anwar_faraz",
+      "type": "parent_child",
+      "personId1": "p_gujar",
+      "personId2": "p_anwar_faraz",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_gujar_p_m_nawaz",
+      "type": "parent_child",
+      "personId1": "p_gujar",
+      "personId2": "p_m_nawaz",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_gul_m_jan_p_m_darviz",
+      "type": "parent_child",
+      "personId1": "p_gul_m_jan",
+      "personId2": "p_m_darviz",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_gul_m_jan_p_abdul_manan",
+      "type": "parent_child",
+      "personId1": "p_gul_m_jan",
+      "personId2": "p_abdul_manan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_gul_m_jan_p_talib_jan",
+      "type": "parent_child",
+      "personId1": "p_gul_m_jan",
+      "personId2": "p_talib_jan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_zarfaraz_p_sultan_khan",
+      "type": "parent_child",
+      "personId1": "p_zarfaraz",
+      "personId2": "p_sultan_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_zarfaraz_p_m_alam_khan",
+      "type": "parent_child",
+      "personId1": "p_zarfaraz",
+      "personId2": "p_m_alam_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_zarfaraz_p_saeed_bacha",
+      "type": "parent_child",
+      "personId1": "p_zarfaraz",
+      "personId2": "p_saeed_bacha",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_zarfaraz_p_gul_bacha",
+      "type": "parent_child",
+      "personId1": "p_zarfaraz",
+      "personId2": "p_gul_bacha",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_lal_faraz_p_zarawar_khan",
+      "type": "parent_child",
+      "personId1": "p_lal_faraz",
+      "personId2": "p_zarawar_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_lal_faraz_p_sultan_bacha",
+      "type": "parent_child",
+      "personId1": "p_lal_faraz",
+      "personId2": "p_sultan_bacha",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_anwar_faraz_p_mehtab_khan",
+      "type": "parent_child",
+      "personId1": "p_anwar_faraz",
+      "personId2": "p_mehtab_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_anwar_faraz_p_nawshad_khan",
+      "type": "parent_child",
+      "personId1": "p_anwar_faraz",
+      "personId2": "p_nawshad_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_anwar_faraz_p_walayat_khan",
+      "type": "parent_child",
+      "personId1": "p_anwar_faraz",
+      "personId2": "p_walayat_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_anwar_faraz_p_ihsan_ullah",
+      "type": "parent_child",
+      "personId1": "p_anwar_faraz",
+      "personId2": "p_ihsan_ullah",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_anwar_faraz_p_rahman_ullah",
+      "type": "parent_child",
+      "personId1": "p_anwar_faraz",
+      "personId2": "p_rahman_ullah",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_m_nawaz_p_akbar_zada",
+      "type": "parent_child",
+      "personId1": "p_m_nawaz",
+      "personId2": "p_akbar_zada",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_m_nawaz_p_amir_zada",
+      "type": "parent_child",
+      "personId1": "p_m_nawaz",
+      "personId2": "p_amir_zada",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_m_darviz_p_abid_ullah",
+      "type": "parent_child",
+      "personId1": "p_m_darviz",
+      "personId2": "p_abid_ullah",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_m_darviz_p_saeed_ullah",
+      "type": "parent_child",
+      "personId1": "p_m_darviz",
+      "personId2": "p_saeed_ullah",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_m_darviz_p_ibrahim_khan",
+      "type": "parent_child",
+      "personId1": "p_m_darviz",
+      "personId2": "p_ibrahim_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_abdul_manan_p_abid_urahman",
+      "type": "parent_child",
+      "personId1": "p_abdul_manan",
+      "personId2": "p_abid_urahman",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_abdul_manan_p_saeed_urahman",
+      "type": "parent_child",
+      "personId1": "p_abdul_manan",
+      "personId2": "p_saeed_urahman",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_abdul_manan_p_najeeb_khan",
+      "type": "parent_child",
+      "personId1": "p_abdul_manan",
+      "personId2": "p_najeeb_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_abdul_manan_p_attaurahman",
+      "type": "parent_child",
+      "personId1": "p_abdul_manan",
+      "personId2": "p_attaurahman",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_talib_jan_p_bilal",
+      "type": "parent_child",
+      "personId1": "p_talib_jan",
+      "personId2": "p_bilal",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_talib_jan_p_muzamil",
+      "type": "parent_child",
+      "personId1": "p_talib_jan",
+      "personId2": "p_muzamil",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_talib_jan_p_rehan",
+      "type": "parent_child",
+      "personId1": "p_talib_jan",
+      "personId2": "p_rehan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_sultan_khan_p_bacha_nat_khan",
+      "type": "parent_child",
+      "personId1": "p_sultan_khan",
+      "personId2": "p_bacha_nat_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_sultan_khan_p_hasham_khan",
+      "type": "parent_child",
+      "personId1": "p_sultan_khan",
+      "personId2": "p_hasham_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_sultan_khan_p_sultan_muhammad",
+      "type": "parent_child",
+      "personId1": "p_sultan_khan",
+      "personId2": "p_sultan_muhammad",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_m_alam_khan_p_ajab_khan",
+      "type": "parent_child",
+      "personId1": "p_m_alam_khan",
+      "personId2": "p_ajab_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_m_alam_khan_p_adam_khan",
+      "type": "parent_child",
+      "personId1": "p_m_alam_khan",
+      "personId2": "p_adam_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_saeed_bacha_p_lal_bacha",
+      "type": "parent_child",
+      "personId1": "p_saeed_bacha",
+      "personId2": "p_lal_bacha",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_gul_bacha_p_suleman_khan",
+      "type": "parent_child",
+      "personId1": "p_gul_bacha",
+      "personId2": "p_suleman_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_gul_bacha_p_roman_khan",
+      "type": "parent_child",
+      "personId1": "p_gul_bacha",
+      "personId2": "p_roman_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_gul_bacha_p_luqman_khan",
+      "type": "parent_child",
+      "personId1": "p_gul_bacha",
+      "personId2": "p_luqman_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_gul_bacha_p_usam_khan",
+      "type": "parent_child",
+      "personId1": "p_gul_bacha",
+      "personId2": "p_usam_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_zarawar_khan_p_alam_zeb",
+      "type": "parent_child",
+      "personId1": "p_zarawar_khan",
+      "personId2": "p_alam_zeb",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_zarawar_khan_p_umar_zeb",
+      "type": "parent_child",
+      "personId1": "p_zarawar_khan",
+      "personId2": "p_umar_zeb",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_zarawar_khan_p_raham_zeb",
+      "type": "parent_child",
+      "personId1": "p_zarawar_khan",
+      "personId2": "p_raham_zeb",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_zarawar_khan_p_inayat_zeb",
+      "type": "parent_child",
+      "personId1": "p_zarawar_khan",
+      "personId2": "p_inayat_zeb",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_zarawar_khan_p_shan_zeb",
+      "type": "parent_child",
+      "personId1": "p_zarawar_khan",
+      "personId2": "p_shan_zeb",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_zarawar_khan_p_akram_zeb",
+      "type": "parent_child",
+      "personId1": "p_zarawar_khan",
+      "personId2": "p_akram_zeb",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_zarawar_khan_p_mubarak_zeb",
+      "type": "parent_child",
+      "personId1": "p_zarawar_khan",
+      "personId2": "p_mubarak_zeb",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_sultan_bacha_p_umar_farooq",
+      "type": "parent_child",
+      "personId1": "p_sultan_bacha",
+      "personId2": "p_umar_farooq",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_sultan_bacha_p_umar_sadiq",
+      "type": "parent_child",
+      "personId1": "p_sultan_bacha",
+      "personId2": "p_umar_sadiq",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_sultan_bacha_p_khalid_sultan",
+      "type": "parent_child",
+      "personId1": "p_sultan_bacha",
+      "personId2": "p_khalid_sultan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_sultan_bacha_p_sajid",
+      "type": "parent_child",
+      "personId1": "p_sultan_bacha",
+      "personId2": "p_sajid",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_sultan_bacha_p_abass",
+      "type": "parent_child",
+      "personId1": "p_sultan_bacha",
+      "personId2": "p_abass",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_mehtab_khan_p_usman_ullah",
+      "type": "parent_child",
+      "personId1": "p_mehtab_khan",
+      "personId2": "p_usman_ullah",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_mehtab_khan_p_bacha_zeb",
+      "type": "parent_child",
+      "personId1": "p_mehtab_khan",
+      "personId2": "p_bacha_zeb",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_nawshad_khan_p_irshad_khan",
+      "type": "parent_child",
+      "personId1": "p_nawshad_khan",
+      "personId2": "p_irshad_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_nawshad_khan_p_zakria_khan",
+      "type": "parent_child",
+      "personId1": "p_nawshad_khan",
+      "personId2": "p_zakria_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_walayat_khan_p_shakir_ullah",
+      "type": "parent_child",
+      "personId1": "p_walayat_khan",
+      "personId2": "p_shakir_ullah",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_walayat_khan_p_imran_shahid",
+      "type": "parent_child",
+      "personId1": "p_walayat_khan",
+      "personId2": "p_imran_shahid",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_walayat_khan_p_kamran_shahid",
+      "type": "parent_child",
+      "personId1": "p_walayat_khan",
+      "personId2": "p_kamran_shahid",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_walayat_khan_p_adnan_shahid",
+      "type": "parent_child",
+      "personId1": "p_walayat_khan",
+      "personId2": "p_adnan_shahid",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_ihsan_ullah_p_salman_shahid",
+      "type": "parent_child",
+      "personId1": "p_ihsan_ullah",
+      "personId2": "p_salman_shahid",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_ihsan_ullah_p_mehran_shahid",
+      "type": "parent_child",
+      "personId1": "p_ihsan_ullah",
+      "personId2": "p_mehran_shahid",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_ihsan_ullah_p_saeed_ahmad",
+      "type": "parent_child",
+      "personId1": "p_ihsan_ullah",
+      "personId2": "p_saeed_ahmad",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_rahman_ullah_p_muhammad_rayan",
+      "type": "parent_child",
+      "personId1": "p_rahman_ullah",
+      "personId2": "p_muhammad_rayan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_rahman_ullah_p_muhammad_hamdan",
+      "type": "parent_child",
+      "personId1": "p_rahman_ullah",
+      "personId2": "p_muhammad_hamdan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_akbar_zada_p_sultan_zeb_khan",
+      "type": "parent_child",
+      "personId1": "p_akbar_zada",
+      "personId2": "p_sultan_zeb_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_akbar_zada_p_shahid_zeb_khan",
+      "type": "parent_child",
+      "personId1": "p_akbar_zada",
+      "personId2": "p_shahid_zeb_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_amir_zada_p_tahir_zeb_khan",
+      "type": "parent_child",
+      "personId1": "p_amir_zada",
+      "personId2": "p_tahir_zeb_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_amir_zada_p_sadaqat_zeb_khan",
+      "type": "parent_child",
+      "personId1": "p_amir_zada",
+      "personId2": "p_sadaqat_zeb_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_amir_zada_p_liaqat_zeb_khan",
+      "type": "parent_child",
+      "personId1": "p_amir_zada",
+      "personId2": "p_liaqat_zeb_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_amir_zada_p_hidayat_zeb_khan",
+      "type": "parent_child",
+      "personId1": "p_amir_zada",
+      "personId2": "p_hidayat_zeb_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    },
+    {
+      "id": "rel_p_amir_zada_p_ahmad_zeb_khan",
+      "type": "parent_child",
+      "personId1": "p_amir_zada",
+      "personId2": "p_ahmad_zeb_khan",
+      "createdAt": "2026-08-10T01:30:19.372Z"
+    }
+  ],
+  "branches": [
+    {
+      "id": "branch_root",
+      "name": "Mazid Khail",
+      "description": "Ancestral Lineage of Mazid Khail"
+    },
+    {
+      "id": "branch_door",
+      "name": "Door Muhammad Khan Branch",
+      "parentBranchId": "branch_root",
+      "patriarchPersonId": "p_door"
+    },
+    {
+      "id": "branch_noor",
+      "name": "Noor Muhammad Shah Branch",
+      "parentBranchId": "branch_root",
+      "patriarchPersonId": "p_noor"
+    },
+    {
+      "id": "branch_yar",
+      "name": "Yar Muhammad Shah Branch",
+      "parentBranchId": "branch_root",
+      "patriarchPersonId": "p_yar"
+    },
+    {
+      "id": "branch_gujar",
+      "name": "Gujar Khan Sub-Branch",
+      "parentBranchId": "branch_door",
+      "patriarchPersonId": "p_gujar"
+    },
+    {
+      "id": "branch_saho",
+      "name": "Saho Khan Sub-Branch",
+      "parentBranchId": "branch_door",
+      "patriarchPersonId": "p_saho"
+    },
+    {
+      "id": "branch_zarfaraz",
+      "name": "Zarfaraz Khan Sub-Branch",
+      "parentBranchId": "branch_gujar",
+      "patriarchPersonId": "p_zarfaraz"
+    },
+    {
+      "id": "branch_lal_faraz",
+      "name": "Lal Faraz Khan Sub-Branch",
+      "parentBranchId": "branch_gujar",
+      "patriarchPersonId": "p_lal_faraz"
+    },
+    {
+      "id": "branch_anwar_faraz",
+      "name": "Anwar Faraz Khan Sub-Branch",
+      "parentBranchId": "branch_gujar",
+      "patriarchPersonId": "p_anwar_faraz"
+    },
+    {
+      "id": "branch_nawaz",
+      "name": "Muhammad Nawaz Khan Sub-Branch",
+      "parentBranchId": "branch_gujar",
+      "patriarchPersonId": "p_m_nawaz"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "log_seed_001",
+      "timestamp": "2026-08-10T01:30:19.372Z",
+      "action": "DATA_RESTORED",
+      "details": "Initial database seeded directly from the historical Mazid Khail document compiled by Sadaqat Zeb Khan."
+    }
+  ],
+  "adminPasswordHash": "admin123",
+  "version": "1.0.0",
+  "lastUpdated": "2026-08-10T01:30:19.372Z"
+}

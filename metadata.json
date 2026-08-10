@@ -1,0 +1,6 @@
+{
+  "name": "Mazid Khail Family Database & Interactive Family Tree",
+  "description": "Private family database and interactive family tree preserving the genealogical records and lineage of the Mazid Khail family.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
