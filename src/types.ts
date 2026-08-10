@@ -73,7 +73,7 @@ export interface ImportPreviewResult {
   canImport: boolean;
 }
 
-export type TreeViewStyle = 'traditional' | 'interactive';
+export type TreeViewStyle = 'traditional' | 'interactive' | 'singlePage';
 
 export interface TreeFilterOptions {
   searchQuery: string;

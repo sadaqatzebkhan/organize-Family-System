@@ -3,6 +3,7 @@ import { Person, FamilyBranch, TreeViewStyle, TreeFilterOptions } from '../types
 import { TreeControls } from '../components/tree/TreeControls';
 import { TraditionalTree } from '../components/tree/TraditionalTree';
 import { InteractiveTree } from '../components/tree/InteractiveTree';
+import { SinglePageTree } from '../components/tree/SinglePageTree';
 
 interface FamilyTreePageProps {
   people: Person[];
@@ -86,7 +87,15 @@ export const FamilyTreePage: React.FC<FamilyTreePageProps> = ({
 
       {/* Main Tree Canvas Container */}
       <div className="relative">
-        {viewStyle === 'traditional' ? (
+        {viewStyle === 'singlePage' ? (
+          <SinglePageTree
+            people={filteredPeople}
+            onSelectPerson={onSelectPerson}
+            selectedPersonId={selectedPersonId}
+            searchQuery={filterOptions.searchQuery}
+            zoomLevel={zoomLevel}
+          />
+        ) : viewStyle === 'traditional' ? (
           <TraditionalTree
             people={filteredPeople}
             onSelectPerson={onSelectPerson}

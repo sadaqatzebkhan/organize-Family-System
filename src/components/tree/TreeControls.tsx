@@ -67,6 +67,18 @@ export const TreeControls: React.FC<TreeControlsProps> = ({
             <Network className="w-3.5 h-3.5" />
             <span>Style 2: Interactive Tree</span>
           </button>
+          <button
+            onClick={() => onViewStyleChange('singlePage')}
+            id="tree-style-single-page-button"
+            className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all ${
+              viewStyle === 'singlePage'
+                ? 'bg-[#c2410c] text-white shadow-2xs'
+                : 'text-gray-600 hover:text-[#1a1a1a]'
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5 text-amber-200" />
+            <span>Style 3: 1-Page Full Tree (All 85)</span>
+          </button>
         </div>
 
         {/* Selected Highlight Context */}
