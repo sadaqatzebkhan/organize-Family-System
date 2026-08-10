@@ -1,4 +1,5 @@
 import { FamilyDatabase, Person, FamilyBranch, AuditLog, ImportPreviewResult } from '../types';
+import { initialDatabase } from '../data/seedData';
 
 const ADMIN_TOKEN_KEY = 'mazid_khail_admin_token';
 
@@ -46,21 +47,42 @@ async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise
 
 export const api = {
   // Public Data
-  getDatabase: () => fetchApi<{
-    people: Person[];
-    relationships: any[];
-    branches: FamilyBranch[];
-    version: string;
-    lastUpdated: string;
-    stats: {
-      totalPeople: number;
-      totalRelationships: number;
-      totalBranches: number;
-      knownLiving: number;
-      knownDeceased: number;
-      maxGeneration: number;
-    };
-  }>('/api/database'),
+  getDatabase: async () => {
+    try {
+      return await fetchApi<{
+        people: Person[];
+        relationships: any[];
+        branches: FamilyBranch[];
+        version: string;
+        lastUpdated: string;
+        stats: {
+          totalPeople: number;
+          totalRelationships: number;
+          totalBranches: number;
+          knownLiving: number;
+          knownDeceased: number;
+          maxGeneration: number;
+        };
+      }>('/api/database');
+    } catch (e) {
+      console.warn('Backend API unreachable, using static embedded database:', e);
+      return {
+        people: initialDatabase.people,
+        relationships: initialDatabase.relationships,
+        branches: initialDatabase.branches,
+        version: initialDatabase.version,
+        lastUpdated: initialDatabase.lastUpdated,
+        stats: {
+          totalPeople: initialDatabase.people.length,
+          totalRelationships: initialDatabase.relationships.length,
+          totalBranches: initialDatabase.branches.length,
+          knownLiving: initialDatabase.people.filter((p) => p.aliveStatus === 'alive').length,
+          knownDeceased: initialDatabase.people.filter((p) => p.aliveStatus === 'deceased').length,
+          maxGeneration: Math.max(...initialDatabase.people.map((p) => p.generation || 1)),
+        },
+      };
+    }
+  },
 
   // Auth
   login: async (password: string) => {
