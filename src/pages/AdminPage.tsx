@@ -312,31 +312,17 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className="block label-caps">
-                Admin Password
-              </label>
-              <button
-                type="button"
-                onClick={() => setPassword('admin123')}
-                className="text-[10px] text-gray-500 hover:text-[#1a1a1a] underline font-mono"
-              >
-                Auto-fill (admin123)
-              </button>
-            </div>
+            <label className="block label-caps mb-1">
+              Admin Password
+            </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter admin password (default: admin123)"
+              placeholder="Enter admin password"
               className="w-full bg-[#fcfaf7] border border-gray-200 rounded px-4 py-2.5 text-[#1a1a1a] placeholder-gray-400 focus:outline-none focus:border-[#1a1a1a] text-xs font-mono"
               required
             />
-          </div>
-
-          <div className="p-2.5 rounded bg-amber-50 border border-amber-200 text-amber-900 text-[11px] flex items-center justify-between">
-            <span>Static Admin Key: <code className="font-mono font-bold bg-amber-100 px-1 py-0.5 rounded">admin123</code></span>
-            <span className="text-[10px] text-amber-700">Offline & Static Supported</span>
           </div>
 
           {loginError && (
@@ -774,20 +760,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
             </form>
           </div>
 
-          <div className="p-6 rounded bg-red-50 border border-red-200 space-y-4">
-            <h3 className="serif text-xl font-light italic text-red-900">
-              Reset Database to Initial Seed
-            </h3>
-            <p className="text-xs text-red-700">
-              Restores all records back to the original seed extracted from the Mazid Khail PDF document compiled by Sadaqat Zeb Khan.
-            </p>
-            <button
-              onClick={handleResetToSeed}
-              className="px-6 py-2.5 rounded bg-red-800 hover:bg-red-900 text-white label-caps transition-colors shadow-2xs"
-            >
-              Reset Database to Seed State
-            </button>
-          </div>
+
         </div>
       )}
 
