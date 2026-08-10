@@ -312,17 +312,31 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block label-caps mb-1">
-              Admin Password
-            </label>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block label-caps">
+                Admin Password
+              </label>
+              <button
+                type="button"
+                onClick={() => setPassword('admin123')}
+                className="text-[10px] text-gray-500 hover:text-[#1a1a1a] underline font-mono"
+              >
+                Auto-fill (admin123)
+              </button>
+            </div>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter admin password"
-              className="w-full bg-[#fcfaf7] border border-gray-200 rounded px-4 py-2.5 text-[#1a1a1a] placeholder-gray-400 focus:outline-none focus:border-[#1a1a1a] text-xs"
+              placeholder="Enter admin password (default: admin123)"
+              className="w-full bg-[#fcfaf7] border border-gray-200 rounded px-4 py-2.5 text-[#1a1a1a] placeholder-gray-400 focus:outline-none focus:border-[#1a1a1a] text-xs font-mono"
               required
             />
+          </div>
+
+          <div className="p-2.5 rounded bg-amber-50 border border-amber-200 text-amber-900 text-[11px] flex items-center justify-between">
+            <span>Static Admin Key: <code className="font-mono font-bold bg-amber-100 px-1 py-0.5 rounded">admin123</code></span>
+            <span className="text-[10px] text-amber-700">Offline & Static Supported</span>
           </div>
 
           {loginError && (
