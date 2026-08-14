@@ -7,7 +7,6 @@ interface HeaderProps {
   isAdmin: boolean;
   onSearchClick: () => void;
   onOpenPdfModal?: () => void;
-  onOpenMobileModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -16,7 +15,6 @@ export const Header: React.FC<HeaderProps> = ({
   isAdmin,
   onSearchClick,
   onOpenPdfModal,
-  onOpenMobileModal,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -142,22 +140,6 @@ export const Header: React.FC<HeaderProps> = ({
           })}
 
           <div className="pt-2 border-t border-gray-200 space-y-2">
-            {onOpenMobileModal && (
-              <button
-                onClick={() => {
-                  onOpenMobileModal();
-                  setMobileMenuOpen(false);
-                }}
-                className="w-full text-left py-2 text-sm font-bold text-emerald-800 flex items-center justify-between"
-              >
-                <div className="flex items-center gap-2">
-                  <Smartphone className="w-4 h-4 text-emerald-700" />
-                  <span>Download Mobile App & QR Code</span>
-                </div>
-                <span className="text-[10px] bg-emerald-100 px-2 py-0.5 rounded font-mono">Scan QR</span>
-              </button>
-            )}
-
             {onOpenPdfModal && (
               <button
                 onClick={() => {

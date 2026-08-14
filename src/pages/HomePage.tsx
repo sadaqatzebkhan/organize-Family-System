@@ -19,7 +19,8 @@ interface HomePageProps {
   onSelectPerson: (person: Person) => void;
   onSearchClick: () => void;
   onOpenPdfModal?: () => void;
-  onOpenMobileModal?: () => void;
+  deferredPrompt?: any;
+  onInstallApp?: () => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
@@ -28,9 +29,38 @@ export const HomePage: React.FC<HomePageProps> = ({
   onNavigate,
   onSelectPerson,
   onOpenPdfModal,
-  onOpenMobileModal,
+  deferredPrompt,
+  onInstallApp,
 }) => {
   const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://ais-dev-x2we7do72ndb63elibgcz7-117321917077.asia-east1.run.app';
+  const [installSuccess, setInstallSuccess] = React.useState(false);
+  const [showInstructions, setShowInstructions] = React.useState(false);
+
+  const handleDeviceDownload = async () => {
+    if (deferredPrompt) {
+      try {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          setInstallSuccess(true);
+          setShowInstructions(false);
+          return;
+        }
+      } catch (e) {
+        console.error('PWA install error:', e);
+      }
+    }
+
+    if (onInstallApp) {
+      onInstallApp();
+    }
+
+    // If inside iframe or browser prompt not supported (e.g. iOS Safari), show instructions & open standalone
+    if (window.self !== window.top) {
+      window.open(window.location.href, '_blank');
+    }
+    setShowInstructions(true);
+  };
 
   return (
     <div className="space-y-16 py-8 animate-fade-in text-[#1a1a1a]">
@@ -71,17 +101,6 @@ export const HomePage: React.FC<HomePageProps> = ({
               <span>Browse Directory</span>
             </button>
 
-            {onOpenMobileModal && (
-              <button
-                onClick={onOpenMobileModal}
-                id="hero-mobile-app-button"
-                className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 text-xs font-bold uppercase tracking-wider rounded transition-colors shadow-2xs"
-              >
-                <Download className="w-4 h-4 text-emerald-200" />
-                <span>Download on Phone / QR</span>
-              </button>
-            )}
-
             {onOpenPdfModal && (
               <button
                 onClick={onOpenPdfModal}
@@ -98,34 +117,23 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       {/* MOBILE APP & SCAN QR CODE SECTION */}
       <section className="bg-white border-2 border-gray-200 rounded-xl p-6 sm:p-8 shadow-2xs space-y-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-200 pb-4 gap-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-lg bg-orange-50 text-[#c2410c] border border-orange-200">
-              <Smartphone className="w-6 h-6" />
-            </div>
-            <div>
-              <span className="label-caps text-[#c2410c]">Mobile Application</span>
-              <h2 className="serif text-2xl font-bold text-[#1a1a1a]">
-                Get App on Mobile Phone
-              </h2>
-            </div>
+        <div className="flex items-center gap-3 border-b border-gray-200 pb-4">
+          <div className="p-2.5 rounded-lg bg-orange-50 text-[#c2410c] border border-orange-200">
+            <Smartphone className="w-6 h-6" />
           </div>
-          {onOpenMobileModal && (
-            <button
-              onClick={onOpenMobileModal}
-              className="flex items-center gap-2 px-5 py-2.5 bg-[#c2410c] hover:bg-[#9a3412] text-white text-xs font-bold uppercase tracking-wider rounded transition-colors shadow-2xs"
-            >
-              <Download className="w-4 h-4" />
-              <span>Download App on Phone</span>
-            </button>
-          )}
+          <div>
+            <span className="label-caps text-[#c2410c]">Mobile Application</span>
+            <h2 className="serif text-2xl font-bold text-[#1a1a1a]">
+              Scan & Install on Mobile Phone
+            </h2>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center bg-[#fcfaf7] p-6 rounded-xl border border-gray-200">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-[#fcfaf7] p-6 sm:p-8 rounded-xl border border-gray-200">
           
-          {/* QR Code Container */}
-          <div className="md:col-span-4 flex flex-col items-center justify-center text-center space-y-2">
-            <div className="bg-white p-3.5 rounded-xl border border-gray-300 shadow-xs">
+          {/* QR Code Container with single button directly below it */}
+          <div className="md:col-span-5 flex flex-col items-center justify-center text-center space-y-3 bg-white p-5 rounded-xl border border-gray-200 shadow-2xs">
+            <div className="bg-white p-3 rounded-lg border border-gray-200 shadow-xs">
               <QRCodeSVG
                 value={currentUrl}
                 size={160}
@@ -135,32 +143,53 @@ export const HomePage: React.FC<HomePageProps> = ({
               />
             </div>
             <span className="text-[11px] font-bold text-gray-600 font-mono uppercase tracking-wider">
-              Scan with Camera to Open
+              Scan with Phone Camera
             </span>
+
+            {/* ONLY ONE DOWNLOAD BUTTON: Directly Below Scanner */}
+            <button
+              onClick={handleDeviceDownload}
+              className="w-full flex items-center justify-center gap-2 bg-[#c2410c] hover:bg-[#9a3412] text-white px-5 py-3 rounded-lg text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-98"
+            >
+              <Download className="w-4 h-4 text-amber-300" />
+              <span>Download on this Device</span>
+            </button>
+
+            {installSuccess && (
+              <div className="w-full bg-emerald-100 border border-emerald-300 text-emerald-800 p-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 animate-fade-in">
+                <span>✓ App Added to Home Screen!</span>
+              </div>
+            )}
           </div>
 
-          {/* Clean Description & Download Trigger */}
-          <div className="md:col-span-8 space-y-4">
+          {/* Description & Native Install Guide */}
+          <div className="md:col-span-7 space-y-4">
             <h3 className="serif text-xl sm:text-2xl font-bold text-[#1a1a1a]">
-              Install Mazid Khail Archive to Your Phone
+              Add Mazid Khail Archive to Your Mobile Home Screen
             </h3>
 
             <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-              Access the complete family tree, 85-member lineage chart, searchable directories, and historical records on your Android or iPhone device with instant 1-tap loading.
+              Install the official mobile icon directly to your phone's home screen for fast 1-tap offline-ready access to the complete 85-member family tree and historical archives anytime.
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-3">
-              {onOpenMobileModal && (
-                <button
-                  onClick={onOpenMobileModal}
-                  className="flex items-center gap-2 bg-[#1a1a1a] hover:bg-gray-800 text-white px-6 py-3 rounded-lg text-xs font-bold uppercase tracking-wider transition-all shadow-sm"
-                >
-                  <Download className="w-4 h-4 text-amber-400" />
-                  <span>Download App on Phone</span>
-                </button>
-              )}
-            </div>
-
+            {showInstructions && (
+              <div className="p-4 bg-white rounded-xl border-2 border-amber-300/80 text-xs text-gray-800 space-y-2.5 animate-fade-in shadow-xs">
+                <div className="font-bold text-[#c2410c] flex items-center gap-1.5 uppercase tracking-wider text-[11px]">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>How to Add Icon to Phone Home Screen:</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  <div className="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-lg space-y-1">
+                    <span className="font-bold text-emerald-950 block text-[11px]">Android (Chrome):</span>
+                    <p className="text-[11px] text-gray-700">Tap top menu <strong>(⋮)</strong> and tap <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.</p>
+                  </div>
+                  <div className="p-2.5 bg-blue-50/70 border border-blue-200 rounded-lg space-y-1">
+                    <span className="font-bold text-blue-950 block text-[11px]">iPhone (Safari):</span>
+                    <p className="text-[11px] text-gray-700">Tap <strong>Share (⎋)</strong> and scroll down to <strong>"Add to Home Screen"</strong>.</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
         </div>

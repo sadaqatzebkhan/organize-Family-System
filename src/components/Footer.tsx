@@ -4,10 +4,9 @@ import { Shield, QrCode, Smartphone } from 'lucide-react';
 interface FooterProps {
   onNavigate: (page: 'home' | 'tree' | 'people' | 'branches' | 'admin') => void;
   lastUpdated?: string;
-  onOpenMobileModal?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigate, lastUpdated, onOpenMobileModal }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavigate, lastUpdated }) => {
   return (
     <footer className="bg-[#1a1a1a] text-white mt-16 border-t border-black">
       <div className="max-w-7xl mx-auto px-6 py-8">
@@ -40,14 +39,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, lastUpdated, onOpenM
                   Family Branches
                 </button>
               </li>
-              {onOpenMobileModal && (
-                <li>
-                  <button onClick={onOpenMobileModal} className="hover:text-amber-300 text-amber-400 font-semibold hover:underline transition-colors flex items-center gap-1.5 pt-1">
-                    <QrCode className="w-3.5 h-3.5" />
-                    <span>Mobile App & QR Code</span>
-                  </button>
-                </li>
-              )}
             </ul>
           </div>
 

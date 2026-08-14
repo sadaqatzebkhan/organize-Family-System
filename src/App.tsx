@@ -15,8 +15,6 @@ import { PeopleDirectoryPage } from './pages/PeopleDirectoryPage';
 import { FamilyBranchesPage } from './pages/FamilyBranchesPage';
 import { AdminPage } from './pages/AdminPage';
 import { PdfExportModal } from './components/PdfExportModal';
-import { MobileAppModal } from './components/MobileAppModal';
-import { MobileInstallBanner } from './components/MobileInstallBanner';
 import { Search, X, Loader2, RefreshCw, Trash2 } from 'lucide-react';
 
 export default function App() {
@@ -26,7 +24,6 @@ export default function App() {
   const [personToDeleteGlobal, setPersonToDeleteGlobal] = useState<Person | null>(null);
   const [isDeletingGlobal, setIsDeletingGlobal] = useState(false);
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
-  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [stats, setStats] = useState({
     totalPeople: 0,
@@ -61,14 +58,16 @@ export default function App() {
   }, []);
 
   const handleInstallApp = async () => {
-    if (!deferredPrompt) {
-      setIsMobileModalOpen(true);
-      return;
-    }
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      setDeferredPrompt(null);
+    if (deferredPrompt) {
+      try {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          setDeferredPrompt(null);
+        }
+      } catch (err) {
+        console.log('Install prompt error:', err);
+      }
     }
   };
 
@@ -163,7 +162,6 @@ export default function App() {
           isAdmin={isAdmin}
           onSearchClick={() => setIsSearchOpen(true)}
           onOpenPdfModal={() => setIsPdfModalOpen(true)}
-          onOpenMobileModal={() => setIsMobileModalOpen(true)}
         />
 
         {/* Main Content Area */}
@@ -200,7 +198,8 @@ export default function App() {
                   onSelectPerson={(p) => setSelectedPerson(p)}
                   onSearchClick={() => setIsSearchOpen(true)}
                   onOpenPdfModal={() => setIsPdfModalOpen(true)}
-                  onOpenMobileModal={() => setIsMobileModalOpen(true)}
+                  deferredPrompt={deferredPrompt}
+                  onInstallApp={handleInstallApp}
                 />
               )}
 
@@ -252,22 +251,6 @@ export default function App() {
       <Footer
         onNavigate={setCurrentPage}
         lastUpdated={lastUpdated}
-        onOpenMobileModal={() => setIsMobileModalOpen(true)}
-      />
-
-      {/* Mobile Install Suggestion Banner for Mobile Users */}
-      <MobileInstallBanner
-        onOpenMobileModal={() => setIsMobileModalOpen(true)}
-        deferredPrompt={deferredPrompt}
-        onInstallApp={handleInstallApp}
-      />
-
-      {/* Mobile App & QR Code Modal */}
-      <MobileAppModal
-        isOpen={isMobileModalOpen}
-        onClose={() => setIsMobileModalOpen(false)}
-        deferredPrompt={deferredPrompt}
-        onInstallApp={handleInstallApp}
       />
 
       {/* Person Profile Modal */}
