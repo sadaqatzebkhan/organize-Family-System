@@ -175,29 +175,46 @@ export const InstallModal: React.FC<InstallModalProps> = ({
                 </p>
               </div>
 
-              {deferredPrompt ? (
-                <button
-                  onClick={handleInstallClick}
-                  disabled={installing}
-                  id="modal-direct-install-btn"
-                  className="w-full py-3.5 bg-[#c2410c] hover:bg-[#9a3412] text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 text-sm active:scale-[0.98]"
+              {/* Action Buttons */}
+              <div className="space-y-2.5 pt-1">
+                {/* 1. Real APK Download Button */}
+                <a
+                  href="/Mazid_Khail_Family_Archive.apk"
+                  download="Mazid_Khail_Family_Archive.apk"
+                  id="modal-download-apk-btn"
+                  className="w-full py-3 bg-[#1a1a1a] hover:bg-black text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-xs sm:text-sm active:scale-[0.98] text-center"
                 >
-                  <Download className="w-4 h-4" />
-                  <span>{installing ? 'انسٹال ہو رہا ہے...' : 'ابھی موبائل پر انسٹال کریں (Install App)'}</span>
-                </button>
-              ) : (
-                <div className="space-y-2">
-                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-950">
-                    <p className="font-bold mb-1">کروم براؤزر مینو سے انسٹال کریں:</p>
-                    <p className="text-[11px] text-gray-700">
-                      اوپر دائیں کونے میں تین نقطوں <strong>(⋮)</strong> پر ٹیپ کریں اور <strong>"Install app"</strong> یا <strong>"Add to Home screen"</strong> پر کلک کریں۔
+                  <Download className="w-4 h-4 text-amber-400" />
+                  <span>Download APK File (اصلی اینڈرائیڈ اے پی کے ڈاؤنلوڈ)</span>
+                </a>
+
+                {/* 2. Direct Browser Install / Home screen */}
+                {deferredPrompt && (
+                  <button
+                    onClick={handleInstallClick}
+                    disabled={installing}
+                    id="modal-direct-install-btn"
+                    className="w-full py-3 bg-[#c2410c] hover:bg-[#9a3412] text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-xs sm:text-sm active:scale-[0.98]"
+                  >
+                    <Smartphone className="w-4 h-4" />
+                    <span>{installing ? 'انسٹال ہو رہا ہے...' : 'ہوم اسکرین پر شامل کریں (Add to Home Screen)'}</span>
+                  </button>
+                )}
+              </div>
+
+              {!deferredPrompt && (
+                <div className="space-y-2 pt-1">
+                  <div className="p-2.5 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-950">
+                    <p className="font-bold text-[11px] mb-0.5">کروم براؤزر مینو سے بھی انسٹال کر سکتے ہیں:</p>
+                    <p className="text-[10px] text-gray-700">
+                      اوپر دائیں کونے میں تین نقطوں <strong>(⋮)</strong> پر ٹیپ کریں اور <strong>"Install app"</strong> منتخب کریں۔
                     </p>
                   </div>
                   <button
                     onClick={onClose}
-                    className="w-full py-2.5 bg-gray-900 text-white font-bold rounded-xl text-xs hover:bg-black transition-colors"
+                    className="w-full py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-xl text-xs transition-colors"
                   >
-                    ٹھیک ہے (Got It)
+                    ٹھیک ہے (Close)
                   </button>
                 </div>
               )}

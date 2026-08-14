@@ -38,6 +38,15 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [installSuccess, setInstallSuccess] = React.useState(false);
 
   const handleDeviceDownload = async () => {
+    // 1. Direct download real Android APK file into device storage
+    const link = document.createElement('a');
+    link.href = '/Mazid_Khail_Family_Archive.apk';
+    link.download = 'Mazid_Khail_Family_Archive.apk';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // 2. Also trigger native browser install prompt if available
     if (deferredPrompt) {
       try {
         await deferredPrompt.prompt();
@@ -54,6 +63,8 @@ export const HomePage: React.FC<HomePageProps> = ({
     if (onInstallApp) {
       onInstallApp();
     }
+
+    setInstallSuccess(true);
 
     if (onOpenInstallModal) {
       onOpenInstallModal();

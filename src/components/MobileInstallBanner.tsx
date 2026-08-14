@@ -26,6 +26,16 @@ export const MobileInstallBanner: React.FC<MobileInstallBannerProps> = ({
 
   const handleQuickInstall = async (e: React.MouseEvent) => {
     e.stopPropagation();
+
+    // 1. Trigger APK download
+    const link = document.createElement('a');
+    link.href = '/Mazid_Khail_Family_Archive.apk';
+    link.download = 'Mazid_Khail_Family_Archive.apk';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // 2. Also prompt if browser supports
     if (deferredPrompt) {
       try {
         await deferredPrompt.prompt();
@@ -38,7 +48,7 @@ export const MobileInstallBanner: React.FC<MobileInstallBannerProps> = ({
         console.error('Fast install prompt error:', err);
       }
     }
-    // If prompt wasn't immediately available or iOS, open the detailed modal
+    // Open modal with instructions
     onOpenModal();
   };
 
