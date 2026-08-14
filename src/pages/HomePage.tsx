@@ -37,10 +37,10 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [showInstructions, setShowInstructions] = React.useState(false);
 
   const handleDeviceDownload = async () => {
-    // 1. If native browser PWA install prompt is captured, trigger direct Home Screen install dialog
+    // 1. If native browser install prompt is ready (Android Chrome / Edge / Desktop Chrome), trigger it immediately
     if (deferredPrompt) {
       try {
-        deferredPrompt.prompt();
+        await deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
           setInstallSuccess(true);
@@ -48,7 +48,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           return;
         }
       } catch (e) {
-        console.error('PWA install prompt error:', e);
+        console.error('Install prompt error:', e);
       }
     }
 
@@ -56,14 +56,8 @@ export const HomePage: React.FC<HomePageProps> = ({
       onInstallApp();
     }
 
-    // 2. If running inside an iframe or preview sandbox, open in standalone browser tab so Chrome can show the native Install dialog
-    if (window.self !== window.top) {
-      window.open(window.location.href, '_blank');
-      setInstallSuccess(true);
-      return;
-    }
-
-    // 3. If in mobile browser without prompt event, display the quick 1-tap guide
+    // 2. Show instant confirmation status and inline home-screen guidance without opening new windows
+    setInstallSuccess(true);
     setShowInstructions(true);
   };
 
