@@ -512,6 +512,24 @@ async function startServer() {
     return res.status(400).json({ error: 'Invalid settings request.' });
   });
 
+  // Explicit Android APK Download Handlers
+  const handleApkDownload = (req: Request, res: Response) => {
+    const apkPath = path.join(process.cwd(), 'public', 'Mazid_Khail_Family_Archive.apk');
+    if (fs.existsSync(apkPath)) {
+      res.setHeader('Content-Type', 'application/vnd.android.package-archive');
+      res.setHeader('Content-Disposition', 'attachment; filename="Mazid_Khail_Family_Archive.apk"');
+      const stat = fs.statSync(apkPath);
+      res.setHeader('Content-Length', stat.size);
+      const readStream = fs.createReadStream(apkPath);
+      return readStream.pipe(res);
+    }
+    return res.status(404).send('APK file not found on server.');
+  };
+
+  app.get('/download-apk', handleApkDownload);
+  app.get('/Mazid_Khail_Family_Archive.apk', handleApkDownload);
+  app.get('/Khan_Family_Archive.apk', handleApkDownload);
+
   // Serve Vite in Development or Static Dist in Production
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({

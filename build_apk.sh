@@ -45,12 +45,10 @@ cat << 'EOF' > "$BUILD_DIR/AndroidManifest.xml"
     android:versionCode="1"
     android:versionName="1.0.0">
 
-    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="33" />
+    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
 
     <application
         android:allowBackup="true"
@@ -59,14 +57,14 @@ cat << 'EOF' > "$BUILD_DIR/AndroidManifest.xml"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:hardwareAccelerated="true"
-        android:theme="@style/AppTheme"
+        android:theme="@android:style/Theme.NoTitleBar"
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.mazidkhail.familyarchive.MainActivity"
+            android:label="@string/app_name"
             android:exported="true"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:theme="@style/AppTheme">
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
