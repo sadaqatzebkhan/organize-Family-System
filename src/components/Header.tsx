@@ -68,20 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            {onOpenMobileModal && (
-              <button
-                onClick={onOpenMobileModal}
-                id="header-mobile-qr-button"
-                title="Download Mobile App / Scan QR Code"
-                className="flex items-center gap-1.5 bg-emerald-50 text-emerald-900 border border-emerald-300 rounded px-2.5 sm:px-3 py-1.5 text-xs font-bold hover:bg-emerald-100 transition-all shadow-2xs whitespace-nowrap shrink-0"
-              >
-                <Download className="w-3.5 h-3.5 text-emerald-700" />
-                <span className="hidden sm:inline">Download App / QR</span>
-                <span className="sm:hidden">Download</span>
-              </button>
-            )}
-
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
             {onOpenPdfModal && (
               <button
                 onClick={onOpenPdfModal}
@@ -99,7 +86,7 @@ export const Header: React.FC<HeaderProps> = ({
               className="flex items-center gap-2 bg-white border border-gray-200 rounded px-3 py-1.5 text-xs text-[#1a1a1a] hover:border-[#1a1a1a] transition-all shadow-2xs whitespace-nowrap shrink-0"
             >
               <Search className="w-3.5 h-3.5 text-gray-500 shrink-0" />
-              <span className="hidden xl:inline font-medium">Search...</span>
+              <span className="hidden sm:inline font-medium">Search family...</span>
             </button>
 
             <button
@@ -121,7 +108,8 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               id="header-mobile-menu-trigger"
-              className="lg:hidden p-2 text-[#1a1a1a] border border-gray-200 rounded"
+              aria-label="Toggle navigation menu"
+              className="lg:hidden p-2 text-[#1a1a1a] bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#c2410c]"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>

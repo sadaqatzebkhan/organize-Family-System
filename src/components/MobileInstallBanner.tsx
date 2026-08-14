@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Smartphone, Download, QrCode, X, Share2, Sparkles, Check, ArrowDownToLine, Link2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Smartphone, Download, Clock, X, Sparkles } from 'lucide-react';
 
 interface MobileInstallBannerProps {
   onOpenMobileModal: () => void;
@@ -16,129 +17,130 @@ export const MobileInstallBanner: React.FC<MobileInstallBannerProps> = ({
   const [isDismissed, setIsDismissed] = useState(false);
 
   useEffect(() => {
-    // Check if dismissed in this session
-    const dismissed = sessionStorage.getItem('mazid_khail_mobile_banner_dismissed');
+    const dismissed = sessionStorage.getItem('mazid_khail_mobile_prompt_dismissed');
     if (dismissed === 'true') {
       setIsDismissed(true);
       return;
     }
 
-    // Detect mobile or small screen
-    const checkMobile = () => {
-      const isMobileDevice = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
-        navigator.userAgent
-      );
-      const isSmallScreen = window.innerWidth <= 768;
-      if (isMobileDevice || isSmallScreen) {
-        setIsVisible(true);
-      }
-    };
+    const isMobileDevice = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+      navigator.userAgent
+    );
+    const isSmallScreen = typeof window !== 'undefined' && window.innerWidth <= 768;
 
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    if (isMobileDevice || isSmallScreen) {
+      // Auto prompt appears smoothly after 800ms
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
-  if (!isVisible || isDismissed) return null;
-
-  const handleDismiss = () => {
+  const handleDownloadLater = () => {
     setIsDismissed(true);
-    sessionStorage.setItem('mazid_khail_mobile_banner_dismissed', 'true');
+    sessionStorage.setItem('mazid_khail_mobile_prompt_dismissed', 'true');
   };
 
-  const handleDownloadAppLauncher = () => {
-    const targetUrl = typeof window !== 'undefined' ? window.location.href : 'https://ais-dev-x2we7do72ndb63elibgcz7-117321917077.asia-east1.run.app';
-    const launcherHtml = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#1a1a1a">
-  <title>The Khan Family Archive — Mazid Khail</title>
-  <script>window.location.href = "${targetUrl}";</script>
-</head>
-<body style="font-family:sans-serif; text-align:center; padding:40px; background:#fcfaf7;">
-  <h2>Khan Family Tree Mobile App</h2>
-  <p>Launching application...</p>
-  <a href="${targetUrl}" style="background:#c2410c; color:#fff; padding:12px 24px; text-decoration:none; border-radius:6px; font-weight:bold;">Open Family Tree</a>
-</body>
-</html>`;
-
-    const blob = new Blob([launcherHtml], { type: 'text/html;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'Mazid_Khail_Family_App.html';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
-
-  const handleInstallClick = () => {
+  const handleDownloadNow = () => {
     if (deferredPrompt && onInstallApp) {
       onInstallApp();
     } else {
       onOpenMobileModal();
     }
+    setIsDismissed(true);
   };
 
   return (
-    <aside
-      aria-label="Mobile app download suggestion"
-      className="fixed bottom-3 inset-x-3 sm:inset-x-auto sm:right-4 sm:max-w-md z-40 bg-[#1a1a1a] text-white p-3.5 sm:p-4 rounded-xl shadow-2xl border border-white/10 animate-fade-in"
-    >
-      <div className="flex items-start justify-between gap-3">
-        
-        {/* App Icon + Text */}
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-[#c2410c] text-white rounded-lg shadow-md shrink-0">
-            <Smartphone className="w-5 h-5" />
-          </div>
-          <div className="space-y-0.5">
-            <div className="flex items-center gap-1.5">
-              <span className="serif font-bold text-sm text-white">
-                Khan Family Mobile App
-              </span>
-              <span className="px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 text-[9px] font-bold uppercase rounded border border-emerald-500/30">
-                1-Click Direct Download
-              </span>
+    <AnimatePresence>
+      {isVisible && !isDismissed && (
+        <motion.div
+          key="mobile-install-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs"
+        >
+          <motion.aside
+            key="mobile-install-card"
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 40, scale: 0.95 }}
+            transition={{
+              type: 'spring',
+              damping: 24,
+              stiffness: 300,
+            }}
+            aria-label="Mobile app download suggestion"
+            className="w-full max-w-sm bg-[#1a1a1a] text-white p-5 rounded-2xl shadow-2xl border border-white/15 space-y-4"
+          >
+            {/* Top bar with icon & close */}
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <motion.div
+                  initial={{ rotate: -10, scale: 0.8 }}
+                  animate={{ rotate: 0, scale: 1 }}
+                  transition={{ delay: 0.1, type: 'spring', stiffness: 400 }}
+                  className="p-3 bg-[#c2410c] text-white rounded-xl shadow-md shrink-0"
+                >
+                  <Smartphone className="w-6 h-6" />
+                </motion.div>
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <h3 className="serif font-bold text-base text-white">
+                      Khan Family App
+                    </h3>
+                    <span className="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-300 text-[10px] font-bold uppercase rounded border border-emerald-500/30">
+                      Mobile
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-300 mt-0.5">
+                    Mazid Khail Genealogical Archive
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={handleDownloadLater}
+                className="text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition-colors -mr-1 -mt-1"
+                aria-label="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            <p className="text-[11px] text-gray-300 line-clamp-1">
-              Click link to download app or install to your phone
+
+            {/* Description */}
+            <p className="text-xs text-gray-300 leading-relaxed">
+              Would you like to install or download this app onto your mobile phone for faster 1-tap access anytime?
             </p>
-          </div>
-        </div>
 
-        {/* Dismiss Button */}
-        <button
-          onClick={handleDismiss}
-          className="text-gray-400 hover:text-white p-1 rounded transition-colors -mr-1 -mt-1"
-          aria-label="Close suggestion banner"
-        >
-          <X className="w-4 h-4" />
-        </button>
+            {/* 2 Clear Options: Download Later vs Download Now */}
+            <div className="grid grid-cols-2 gap-2.5 pt-1">
+              {/* Option 1: Download Later */}
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={handleDownloadLater}
+                className="w-full flex items-center justify-center gap-1.5 bg-white/10 hover:bg-white/20 text-gray-200 px-3 py-2.5 rounded-lg text-xs font-semibold transition-all border border-white/15"
+              >
+                <Clock className="w-3.5 h-3.5 text-gray-400" />
+                <span>Download Later</span>
+              </motion.button>
 
-      </div>
-
-      {/* Buttons */}
-      <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between gap-2">
-        <button
-          onClick={onOpenMobileModal}
-          className="flex-1 flex items-center justify-center gap-1.5 bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded text-xs font-semibold transition-all border border-white/15"
-        >
-          <Link2 className="w-3.5 h-3.5 text-amber-300" />
-          <span>Click Link & Options</span>
-        </button>
-
-        <button
-          onClick={handleInstallClick}
-          className="flex-1 flex items-center justify-center gap-1.5 bg-[#c2410c] hover:bg-[#9a3412] text-white px-3 py-1.5 rounded text-xs font-bold transition-all shadow-sm"
-        >
-          <Download className="w-3.5 h-3.5" />
-          <span>Download on Phone</span>
-        </button>
-      </div>
-    </aside>
+              {/* Option 2: Download Now */}
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                onClick={handleDownloadNow}
+                className="w-full flex items-center justify-center gap-1.5 bg-[#c2410c] hover:bg-[#9a3412] text-white px-3 py-2.5 rounded-lg text-xs font-bold transition-all shadow-md"
+              >
+                <Download className="w-3.5 h-3.5 text-amber-300" />
+                <span>Download Now</span>
+              </motion.button>
+            </div>
+          </motion.aside>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };

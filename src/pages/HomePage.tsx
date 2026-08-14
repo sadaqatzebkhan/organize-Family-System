@@ -97,124 +97,68 @@ export const HomePage: React.FC<HomePageProps> = ({
       </section>
 
       {/* MOBILE APP & SCAN QR CODE SECTION */}
-      <section className="bg-white border-2 border-emerald-900/20 rounded-xl p-6 sm:p-10 shadow-2xs space-y-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-emerald-900/15 pb-4 gap-4">
+      <section className="bg-white border-2 border-gray-200 rounded-xl p-6 sm:p-8 shadow-2xs space-y-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-200 pb-4 gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-300">
-              <QrCode className="w-6 h-6" />
+            <div className="p-2.5 rounded-lg bg-orange-50 text-[#c2410c] border border-orange-200">
+              <Smartphone className="w-6 h-6" />
             </div>
             <div>
-              <span className="label-caps text-emerald-700">Mobile Installation & Fast Access</span>
-              <h2 className="serif text-2xl sm:text-3xl font-bold text-[#1a1a1a]">
-                Open on Mobile & Download App
+              <span className="label-caps text-[#c2410c]">Mobile Application</span>
+              <h2 className="serif text-2xl font-bold text-[#1a1a1a]">
+                Get App on Mobile Phone
               </h2>
             </div>
           </div>
           {onOpenMobileModal && (
             <button
               onClick={onOpenMobileModal}
-              className="flex items-center gap-2 px-4 py-2 bg-[#1a1a1a] hover:bg-gray-800 text-white text-xs font-bold uppercase tracking-wider rounded transition-colors shadow-2xs"
+              className="flex items-center gap-2 px-5 py-2.5 bg-[#c2410c] hover:bg-[#9a3412] text-white text-xs font-bold uppercase tracking-wider rounded transition-colors shadow-2xs"
             >
-              <Download className="w-4 h-4 text-emerald-400" />
-              <span>Full Mobile Details & Install</span>
+              <Download className="w-4 h-4" />
+              <span>Download App on Phone</span>
             </button>
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-[#fcfaf7] p-6 sm:p-8 rounded-xl border border-gray-200">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center bg-[#fcfaf7] p-6 rounded-xl border border-gray-200">
           
           {/* QR Code Container */}
-          <div className="md:col-span-4 flex flex-col items-center justify-center text-center space-y-3">
-            <div className="bg-white p-4 rounded-xl border-2 border-gray-300 shadow-md">
+          <div className="md:col-span-4 flex flex-col items-center justify-center text-center space-y-2">
+            <div className="bg-white p-3.5 rounded-xl border border-gray-300 shadow-xs">
               <QRCodeSVG
                 value={currentUrl}
-                size={180}
-                level="H"
+                size={160}
+                level="M"
                 includeMargin={true}
                 fgColor="#1a1a1a"
               />
-              <span className="block text-[10px] font-bold text-gray-500 mt-2 font-mono uppercase tracking-wider">
-                Point Phone Camera to Scan
-              </span>
             </div>
-            {onOpenMobileModal && (
-              <button
-                onClick={onOpenMobileModal}
-                className="text-xs font-bold text-[#c2410c] hover:underline flex items-center gap-1"
-              >
-                <span>Save QR Code / Print Banner</span>
-                <ArrowRight className="w-3 h-3" />
-              </button>
-            )}
+            <span className="text-[11px] font-bold text-gray-600 font-mono uppercase tracking-wider">
+              Scan with Camera to Open
+            </span>
           </div>
 
-          {/* Mobile App Description & Exact Same Interface Guarantee */}
+          {/* Clean Description & Download Trigger */}
           <div className="md:col-span-8 space-y-4">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-900 rounded text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-700" />
-              <span>Exact Same 100% Full Website Interface on Mobile</span>
-            </div>
-
             <h3 className="serif text-xl sm:text-2xl font-bold text-[#1a1a1a]">
-              Experience the Full Mazid Khail Lineage On Any Smartphone
+              Install Mazid Khail Archive to Your Phone
             </h3>
 
             <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-              When opened on your mobile device, you get the <strong>exact same comprehensive features</strong> available on the desktop website — including the interactive pan & zoom family tree, single-page 85-member full lineage chart, searchable ancestor directory, and printable PDF exports.
+              Access the complete family tree, 85-member lineage chart, searchable directories, and historical records on your Android or iPhone device with instant 1-tap loading.
             </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              <div className="p-3 bg-white rounded-lg border border-gray-200 text-xs">
-                <span className="font-bold text-[#1a1a1a] block mb-1">Android Phones (Chrome)</span>
-                <span className="text-gray-600">Tap browser menu <strong>⋮</strong> & select <strong>"Add to Home screen"</strong> or <strong>"Install app"</strong>.</span>
-              </div>
-              <div className="p-3 bg-white rounded-lg border border-gray-200 text-xs">
-                <span className="font-bold text-[#1a1a1a] block mb-1">Apple iPhones (Safari)</span>
-                <span className="text-gray-600">Tap <strong>Share ⎋</strong> at bottom and select <strong>"Add to Home Screen"</strong>.</span>
-              </div>
-            </div>
 
             <div className="pt-2 flex flex-wrap items-center gap-3">
               {onOpenMobileModal && (
                 <button
                   onClick={onOpenMobileModal}
-                  className="flex items-center gap-2 bg-[#c2410c] hover:bg-[#9a3412] text-white px-5 py-2.5 rounded text-xs font-bold uppercase tracking-wider transition-all shadow-sm"
+                  className="flex items-center gap-2 bg-[#1a1a1a] hover:bg-gray-800 text-white px-6 py-3 rounded-lg text-xs font-bold uppercase tracking-wider transition-all shadow-sm"
                 >
-                  <Download className="w-4 h-4" />
-                  <span>Click Link & Download on Phone</span>
+                  <Download className="w-4 h-4 text-amber-400" />
+                  <span>Download App on Phone</span>
                 </button>
               )}
-              <button
-                onClick={() => {
-                  const launcherHtml = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>The Khan Family Archive — Mazid Khail</title>
-  <script>window.location.href = "${currentUrl}";</script>
-</head>
-<body style="font-family:sans-serif; text-align:center; padding:40px; background:#fcfaf7;">
-  <h2>Khan Family Tree Mobile App</h2>
-  <p>Launching application...</p>
-  <a href="${currentUrl}" style="background:#c2410c; color:#fff; padding:12px 24px; text-decoration:none; border-radius:6px; font-weight:bold;">Open Family Tree</a>
-</body>
-</html>`;
-                  const blob = new Blob([launcherHtml], { type: 'text/html;charset=utf-8' });
-                  const url = URL.createObjectURL(blob);
-                  const link = document.createElement('a');
-                  link.href = url;
-                  link.download = 'Mazid_Khail_Family_App.html';
-                  document.body.appendChild(link);
-                  link.click();
-                  document.body.removeChild(link);
-                  URL.revokeObjectURL(url);
-                }}
-                className="flex items-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2.5 rounded text-xs font-bold uppercase tracking-wider transition-all shadow-sm"
-              >
-                <Download className="w-4 h-4 text-emerald-200" />
-                <span>Save App File to Phone</span>
-              </button>
             </div>
 
           </div>
