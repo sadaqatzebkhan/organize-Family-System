@@ -37,28 +37,34 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [showInstructions, setShowInstructions] = React.useState(false);
 
   const handleDeviceDownload = async () => {
-    // 1. Direct download APK file
-    const link = document.createElement('a');
-    link.href = '/Khan_Family_Archive.apk';
-    link.download = 'Khan_Family_Archive.apk';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    // 2. Also trigger native browser 1-click home screen install if available
+    // 1. If native browser PWA install prompt is captured, trigger direct Home Screen install dialog
     if (deferredPrompt) {
       try {
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
           setInstallSuccess(true);
+          setShowInstructions(false);
+          return;
         }
       } catch (e) {
-        console.error('PWA install error:', e);
+        console.error('PWA install prompt error:', e);
       }
-    } else if (onInstallApp) {
+    }
+
+    if (onInstallApp) {
       onInstallApp();
     }
+
+    // 2. If running inside an iframe or preview sandbox, open in standalone browser tab so Chrome can show the native Install dialog
+    if (window.self !== window.top) {
+      window.open(window.location.href, '_blank');
+      setInstallSuccess(true);
+      return;
+    }
+
+    // 3. If in mobile browser without prompt event, display the quick 1-tap guide
+    setShowInstructions(true);
   };
 
   return (
