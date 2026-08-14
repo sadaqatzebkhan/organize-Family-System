@@ -15,6 +15,8 @@ import { PeopleDirectoryPage } from './pages/PeopleDirectoryPage';
 import { FamilyBranchesPage } from './pages/FamilyBranchesPage';
 import { AdminPage } from './pages/AdminPage';
 import { PdfExportModal } from './components/PdfExportModal';
+import { InstallModal } from './components/InstallModal';
+import { MobileInstallBanner } from './components/MobileInstallBanner';
 import { Search, X, Loader2, RefreshCw, Trash2 } from 'lucide-react';
 
 export default function App() {
@@ -24,6 +26,7 @@ export default function App() {
   const [personToDeleteGlobal, setPersonToDeleteGlobal] = useState<Person | null>(null);
   const [isDeletingGlobal, setIsDeletingGlobal] = useState(false);
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+  const [isInstallModalOpen, setIsInstallModalOpen] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [stats, setStats] = useState({
     totalPeople: 0,
@@ -162,6 +165,7 @@ export default function App() {
           isAdmin={isAdmin}
           onSearchClick={() => setIsSearchOpen(true)}
           onOpenPdfModal={() => setIsPdfModalOpen(true)}
+          onOpenInstallModal={() => setIsInstallModalOpen(true)}
         />
 
         {/* Main Content Area */}
@@ -198,6 +202,7 @@ export default function App() {
                   onSelectPerson={(p) => setSelectedPerson(p)}
                   onSearchClick={() => setIsSearchOpen(true)}
                   onOpenPdfModal={() => setIsPdfModalOpen(true)}
+                  onOpenInstallModal={() => setIsInstallModalOpen(true)}
                   deferredPrompt={deferredPrompt}
                   onInstallApp={handleInstallApp}
                 />
@@ -384,6 +389,20 @@ export default function App() {
         people={people}
         branches={branches}
         stats={stats}
+      />
+
+      {/* 1-Tap Mobile App Install Modal */}
+      <InstallModal
+        isOpen={isInstallModalOpen}
+        onClose={() => setIsInstallModalOpen(false)}
+        deferredPrompt={deferredPrompt}
+        onInstallSuccess={() => setDeferredPrompt(null)}
+      />
+
+      {/* Auto Floating Mobile Install Banner */}
+      <MobileInstallBanner
+        onOpenModal={() => setIsInstallModalOpen(true)}
+        deferredPrompt={deferredPrompt}
       />
 
     </div>

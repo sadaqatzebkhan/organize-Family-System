@@ -7,6 +7,7 @@ interface HeaderProps {
   isAdmin: boolean;
   onSearchClick: () => void;
   onOpenPdfModal?: () => void;
+  onOpenInstallModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -15,6 +16,7 @@ export const Header: React.FC<HeaderProps> = ({
   isAdmin,
   onSearchClick,
   onOpenPdfModal,
+  onOpenInstallModal,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -67,6 +69,18 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right Actions */}
           <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+            {onOpenInstallModal && (
+              <button
+                onClick={onOpenInstallModal}
+                id="header-mobile-app-button"
+                className="hidden sm:flex items-center gap-1.5 bg-emerald-50 text-emerald-900 border border-emerald-300 rounded px-2.5 sm:px-3 py-1.5 text-xs font-bold hover:bg-emerald-100 transition-all shadow-2xs whitespace-nowrap shrink-0"
+                title="موبائل پر ایپ انسٹال کریں"
+              >
+                <Smartphone className="w-3.5 h-3.5 text-emerald-700" />
+                <span>Mobile App</span>
+              </button>
+            )}
+
             {onOpenPdfModal && (
               <button
                 onClick={onOpenPdfModal}
@@ -140,6 +154,19 @@ export const Header: React.FC<HeaderProps> = ({
           })}
 
           <div className="pt-2 border-t border-gray-200 space-y-2">
+            {onOpenInstallModal && (
+              <button
+                onClick={() => {
+                  onOpenInstallModal();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full text-left py-2 text-sm font-bold text-emerald-800 flex items-center gap-2"
+              >
+                <Smartphone className="w-4 h-4 text-emerald-600" />
+                <span>موبائل پر ایپ انسٹال کریں (Install Mobile App)</span>
+              </button>
+            )}
+
             {onOpenPdfModal && (
               <button
                 onClick={() => {

@@ -19,6 +19,7 @@ interface HomePageProps {
   onSelectPerson: (person: Person) => void;
   onSearchClick: () => void;
   onOpenPdfModal?: () => void;
+  onOpenInstallModal?: () => void;
   deferredPrompt?: any;
   onInstallApp?: () => void;
 }
@@ -29,22 +30,20 @@ export const HomePage: React.FC<HomePageProps> = ({
   onNavigate,
   onSelectPerson,
   onOpenPdfModal,
+  onOpenInstallModal,
   deferredPrompt,
   onInstallApp,
 }) => {
   const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://ais-dev-x2we7do72ndb63elibgcz7-117321917077.asia-east1.run.app';
   const [installSuccess, setInstallSuccess] = React.useState(false);
-  const [showInstructions, setShowInstructions] = React.useState(false);
 
   const handleDeviceDownload = async () => {
-    // 1. If native browser install prompt is ready (Android Chrome / Edge / Desktop Chrome), trigger it immediately
     if (deferredPrompt) {
       try {
         await deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
           setInstallSuccess(true);
-          setShowInstructions(false);
           return;
         }
       } catch (e) {
@@ -56,9 +55,9 @@ export const HomePage: React.FC<HomePageProps> = ({
       onInstallApp();
     }
 
-    // 2. Show instant confirmation status and inline home-screen guidance without opening new windows
-    setInstallSuccess(true);
-    setShowInstructions(true);
+    if (onOpenInstallModal) {
+      onOpenInstallModal();
+    }
   };
 
   return (
@@ -161,15 +160,31 @@ export const HomePage: React.FC<HomePageProps> = ({
             )}
           </div>
 
-          {/* Clean Description */}
-          <div className="md:col-span-7 space-y-3">
-            <h3 className="serif text-xl sm:text-2xl font-bold text-[#1a1a1a]">
-              Download Mazid Khail Archive Mobile App
-            </h3>
+          {/* Clean Description & Urdu guidance */}
+          <div className="md:col-span-7 space-y-4">
+            <div>
+              <span className="text-[11px] uppercase font-bold tracking-wider text-[#c2410c] bg-orange-100/70 px-2 py-0.5 rounded">
+                1-Click Instant Mobile Install
+              </span>
+              <h3 className="serif text-xl sm:text-2xl font-bold text-[#1a1a1a] mt-1.5">
+                موبائل ایپ اپنے فون کی اسکرین پر شامل کریں
+              </h3>
+            </div>
 
             <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-              Scan the QR code with your mobile camera or tap <strong>Download on this Device</strong> to download and install the complete 85-member family tree and historical archive directly to your phone.
+              اپنے موبائل کیمرہ سے کیو آر کوڈ اسکین کریں یا <strong>"Install App on this Device"</strong> کا بٹن دبائیں۔ ایپ کا باقاعدہ آفیشل آئیکن خود بخود آپ کے فون کی مین ہوم اسکرین پر شامل ہو جائے گا اور آپ بغیر انٹرنیٹ بھی مکمل شجرہ نسب اور 85 افراد کا ریکارڈ دیکھ سکیں گے۔
             </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-xs">
+              <div className="p-3 bg-white border border-gray-200 rounded-lg shadow-2xs">
+                <span className="font-bold text-gray-900 block mb-0.5">⚡ تیز رفتار رسائی:</span>
+                <span className="text-gray-600">براہِ راست 1-ٹیپ میں فل اسکرین موبائل ایپ کھل جاتی ہے۔</span>
+              </div>
+              <div className="p-3 bg-white border border-gray-200 rounded-lg shadow-2xs">
+                <span className="font-bold text-gray-900 block mb-0.5">🔒 محفوظ و ہمیشہ دستیاب:</span>
+                <span className="text-gray-600">خاندان کے تمام افراد باآسانی تلاش اور مطالعہ کر سکتے ہیں۔</span>
+              </div>
+            </div>
           </div>
 
         </div>
