@@ -1,16 +1,17 @@
 import React from 'react';
-import { Shield } from 'lucide-react';
+import { Shield, QrCode, Smartphone } from 'lucide-react';
 
 interface FooterProps {
   onNavigate: (page: 'home' | 'tree' | 'people' | 'branches' | 'admin') => void;
   lastUpdated?: string;
+  onOpenMobileModal?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigate, lastUpdated }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavigate, lastUpdated, onOpenMobileModal }) => {
   return (
     <footer className="bg-[#1a1a1a] text-white mt-16 border-t border-black">
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 pb-8 border-b border-white/10 text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8 pb-8 border-b border-white/10 text-xs">
           
           {/* Col 1: About */}
           <div className="md:col-span-2 space-y-3">
@@ -39,6 +40,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, lastUpdated }) => {
                   Family Branches
                 </button>
               </li>
+              {onOpenMobileModal && (
+                <li>
+                  <button onClick={onOpenMobileModal} className="hover:text-amber-300 text-amber-400 font-semibold hover:underline transition-colors flex items-center gap-1.5 pt-1">
+                    <QrCode className="w-3.5 h-3.5" />
+                    <span>Mobile App & QR Code</span>
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
 
@@ -76,4 +85,5 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, lastUpdated }) => {
     </footer>
   );
 };
+
 

@@ -15,6 +15,8 @@ import { PeopleDirectoryPage } from './pages/PeopleDirectoryPage';
 import { FamilyBranchesPage } from './pages/FamilyBranchesPage';
 import { AdminPage } from './pages/AdminPage';
 import { PdfExportModal } from './components/PdfExportModal';
+import { MobileAppModal } from './components/MobileAppModal';
+import { MobileInstallBanner } from './components/MobileInstallBanner';
 import { Search, X, Loader2, RefreshCw, Trash2 } from 'lucide-react';
 
 export default function App() {
@@ -24,6 +26,8 @@ export default function App() {
   const [personToDeleteGlobal, setPersonToDeleteGlobal] = useState<Person | null>(null);
   const [isDeletingGlobal, setIsDeletingGlobal] = useState(false);
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [stats, setStats] = useState({
     totalPeople: 0,
     totalRelationships: 0,
@@ -44,6 +48,29 @@ export default function App() {
   // Search Dialog state
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [quickQuery, setQuickQuery] = useState<string>('');
+
+  // Handle PWA installation prompt
+  useEffect(() => {
+    const handleBeforeInstall = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+  }, []);
+
+  const handleInstallApp = async () => {
+    if (!deferredPrompt) {
+      setIsMobileModalOpen(true);
+      return;
+    }
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null);
+    }
+  };
 
   const loadData = async (showSpinner = false) => {
     if (showSpinner) setLoading(true);
@@ -136,6 +163,7 @@ export default function App() {
           isAdmin={isAdmin}
           onSearchClick={() => setIsSearchOpen(true)}
           onOpenPdfModal={() => setIsPdfModalOpen(true)}
+          onOpenMobileModal={() => setIsMobileModalOpen(true)}
         />
 
         {/* Main Content Area */}
@@ -172,6 +200,7 @@ export default function App() {
                   onSelectPerson={(p) => setSelectedPerson(p)}
                   onSearchClick={() => setIsSearchOpen(true)}
                   onOpenPdfModal={() => setIsPdfModalOpen(true)}
+                  onOpenMobileModal={() => setIsMobileModalOpen(true)}
                 />
               )}
 
@@ -220,7 +249,26 @@ export default function App() {
       </div>
 
       {/* Footer */}
-      <Footer onNavigate={setCurrentPage} lastUpdated={lastUpdated} />
+      <Footer
+        onNavigate={setCurrentPage}
+        lastUpdated={lastUpdated}
+        onOpenMobileModal={() => setIsMobileModalOpen(true)}
+      />
+
+      {/* Mobile Install Suggestion Banner for Mobile Users */}
+      <MobileInstallBanner
+        onOpenMobileModal={() => setIsMobileModalOpen(true)}
+        deferredPrompt={deferredPrompt}
+        onInstallApp={handleInstallApp}
+      />
+
+      {/* Mobile App & QR Code Modal */}
+      <MobileAppModal
+        isOpen={isMobileModalOpen}
+        onClose={() => setIsMobileModalOpen(false)}
+        deferredPrompt={deferredPrompt}
+        onInstallApp={handleInstallApp}
+      />
 
       {/* Person Profile Modal */}
       <PersonProfileModal
