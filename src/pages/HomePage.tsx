@@ -37,29 +37,28 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [showInstructions, setShowInstructions] = React.useState(false);
 
   const handleDeviceDownload = async () => {
+    // 1. Direct download APK file
+    const link = document.createElement('a');
+    link.href = '/Khan_Family_Archive.apk';
+    link.download = 'Khan_Family_Archive.apk';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // 2. Also trigger native browser 1-click home screen install if available
     if (deferredPrompt) {
       try {
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
           setInstallSuccess(true);
-          setShowInstructions(false);
-          return;
         }
       } catch (e) {
         console.error('PWA install error:', e);
       }
-    }
-
-    if (onInstallApp) {
+    } else if (onInstallApp) {
       onInstallApp();
     }
-
-    // If inside iframe or browser prompt not supported (e.g. iOS Safari), show instructions & open standalone
-    if (window.self !== window.top) {
-      window.open(window.location.href, '_blank');
-    }
-    setShowInstructions(true);
   };
 
   return (
@@ -162,34 +161,15 @@ export const HomePage: React.FC<HomePageProps> = ({
             )}
           </div>
 
-          {/* Description & Native Install Guide */}
-          <div className="md:col-span-7 space-y-4">
+          {/* Clean Description */}
+          <div className="md:col-span-7 space-y-3">
             <h3 className="serif text-xl sm:text-2xl font-bold text-[#1a1a1a]">
-              Add Mazid Khail Archive to Your Mobile Home Screen
+              Download Mazid Khail Archive Mobile App
             </h3>
 
             <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-              Install the official mobile icon directly to your phone's home screen for fast 1-tap offline-ready access to the complete 85-member family tree and historical archives anytime.
+              Scan the QR code with your mobile camera or tap <strong>Download on this Device</strong> to download and install the complete 85-member family tree and historical archive directly to your phone.
             </p>
-
-            {showInstructions && (
-              <div className="p-4 bg-white rounded-xl border-2 border-amber-300/80 text-xs text-gray-800 space-y-2.5 animate-fade-in shadow-xs">
-                <div className="font-bold text-[#c2410c] flex items-center gap-1.5 uppercase tracking-wider text-[11px]">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>How to Add Icon to Phone Home Screen:</span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                  <div className="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-lg space-y-1">
-                    <span className="font-bold text-emerald-950 block text-[11px]">Android (Chrome):</span>
-                    <p className="text-[11px] text-gray-700">Tap top menu <strong>(⋮)</strong> and tap <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.</p>
-                  </div>
-                  <div className="p-2.5 bg-blue-50/70 border border-blue-200 rounded-lg space-y-1">
-                    <span className="font-bold text-blue-950 block text-[11px]">iPhone (Safari):</span>
-                    <p className="text-[11px] text-gray-700">Tap <strong>Share (⎋)</strong> and scroll down to <strong>"Add to Home Screen"</strong>.</p>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
 
         </div>
