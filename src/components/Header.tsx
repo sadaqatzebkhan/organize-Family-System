@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Network, Users, GitFork, ShieldCheck, Menu, X, Search, BookOpen, QrCode, Smartphone, Download } from 'lucide-react';
+import { Network, Users, GitFork, ShieldCheck, Menu, X, Search, BookOpen, QrCode, Smartphone, Download, MessageSquare } from 'lucide-react';
 
 interface HeaderProps {
-  currentPage: 'home' | 'tree' | 'people' | 'branches' | 'admin';
-  onNavigate: (page: 'home' | 'tree' | 'people' | 'branches' | 'admin') => void;
+  currentPage: 'home' | 'tree' | 'people' | 'branches' | 'chat' | 'admin';
+  onNavigate: (page: 'home' | 'tree' | 'people' | 'branches' | 'chat' | 'admin') => void;
   isAdmin: boolean;
   onSearchClick: () => void;
   onOpenPdfModal?: () => void;
@@ -25,6 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'tree', label: 'Interactive Tree' },
     { id: 'people', label: 'People Directory' },
     { id: 'branches', label: 'Branches' },
+    { id: 'chat', label: 'Family Chat' },
   ] as const;
 
   return (

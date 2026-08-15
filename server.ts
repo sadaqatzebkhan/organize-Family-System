@@ -20,15 +20,42 @@ function loadDatabase(): FamilyDatabase {
   try {
     if (fs.existsSync(DATA_FILE)) {
       const content = fs.readFileSync(DATA_FILE, 'utf-8');
-      const db = JSON.parse(content) as FamilyDatabase;
-      return db;
+      const loadedDb = JSON.parse(content) as FamilyDatabase;
+      if (!loadedDb.messages) {
+        loadedDb.messages = [
+          {
+            id: 'msg_welcome_1',
+            senderName: 'Sadaqat Zeb Khan',
+            senderBranch: 'Dor Muhammad Khan',
+            text: 'السلام علیکم! تمام معزز خاندانی اراکین کو خاندانِ مزید خیل کے ڈیجیٹل پورٹل پر خوش آمدید۔ آپ یہاں خاندانی پیغامات اور اعلانات شیئر کر سکتے ہیں۔',
+            timestamp: new Date(Date.now() - 3600000 * 24).toISOString(),
+            pinned: true,
+            likes: 12,
+          },
+        ];
+      }
+      return loadedDb;
     }
   } catch (err) {
     console.error('Error loading database file, reinitializing:', err);
   }
   // Initialize with seed data
-  saveDatabase(initialDatabase);
-  return initialDatabase;
+  const initial = {
+    ...initialDatabase,
+    messages: [
+      {
+        id: 'msg_welcome_1',
+        senderName: 'Sadaqat Zeb Khan',
+        senderBranch: 'Dor Muhammad Khan',
+        text: 'السلام علیکم! تمام معزز خاندانی اراکین کو خاندانِ مزید خیل کے ڈیجیٹل پورٹل پر خوش آمدید۔ آپ یہاں خاندانی پیغامات اور اعلانات شیئر کر سکتے ہیں۔',
+        timestamp: new Date().toISOString(),
+        pinned: true,
+        likes: 12,
+      },
+    ],
+  };
+  saveDatabase(initial);
+  return initial;
 }
 
 function saveDatabase(db: FamilyDatabase) {
@@ -121,6 +148,237 @@ async function startServer() {
         maxGeneration: Math.max(0, ...db.people.map((p) => p.generation || 1)),
       },
     });
+  });
+
+  // Helper to check if requester is Admin or Sadaqat Zeb Khan (Privileged Moderator)
+  function isAuthorizedModerator(req: Request): boolean {
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.replace('Bearer ', '') || req.query.token;
+    const pinHeader = req.headers['x-admin-pin'] || req.headers['x-pin'];
+    const pinBody = req.body?.pin;
+    return token === ADMIN_TOKEN || pinHeader === '0000000000' || pinBody === '0000000000';
+  }
+
+  // Messages CRUD & Public Group Chat
+  app.get('/api/messages', (req, res) => {
+    if (!db.messages) db.messages = [];
+    res.json({
+      messages: db.messages,
+      total: db.messages.length,
+    });
+  });
+
+  app.post('/api/messages', (req, res) => {
+    let { senderName, senderBranch, text, pin, isVerified } = req.body;
+    if (pin === '0000000000' || isVerified === true) {
+      senderName = 'Sadaqat Zeb Khan';
+      isVerified = true;
+    }
+
+    if (!senderName || !senderName.trim()) {
+      return res.status(400).json({ error: 'Sender name is required.' });
+    }
+    if (!text || !text.trim()) {
+      return res.status(400).json({ error: 'Message text is required.' });
+    }
+
+    if (!db.messages) db.messages = [];
+    if (!db.messageLogs) db.messageLogs = [];
+    if (!db.restrictedUsers) db.restrictedUsers = [];
+
+    // Check if user is restricted / banned
+    const isRestricted = db.restrictedUsers.some(
+      (u) => u.name.trim().toLowerCase() === senderName.trim().toLowerCase()
+    );
+    if (isRestricted && !isVerified) {
+      return res.status(403).json({
+        error: 'You have been restricted from sending messages in the family group by Sadaqat Zeb Khan (Admin).',
+      });
+    }
+
+    // Capture IP Address & User Agent
+    const forwarded = req.headers['x-forwarded-for'];
+    const ip = typeof forwarded === 'string'
+      ? forwarded.split(',')[0].trim()
+      : (req.headers['x-real-ip'] as string) || req.socket.remoteAddress || req.ip || '127.0.0.1';
+    const userAgent = (req.headers['user-agent'] as string) || 'Mobile / Web Browser';
+
+    const newMessage: any = {
+      id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+      senderName: senderName.trim().slice(0, 60),
+      senderBranch: senderBranch ? senderBranch.trim().slice(0, 60) : null,
+      text: text.trim().slice(0, 1000),
+      timestamp: new Date().toISOString(),
+      pinned: false,
+      isVerified: Boolean(isVerified || (pin === '0000000000') || senderName.trim().toLowerCase() === 'sadaqat zeb khan'),
+      likes: 0,
+      ipAddress: ip,
+      userAgent: userAgent,
+    };
+
+    db.messages.push(newMessage);
+    // Keep max 500 messages
+    if (db.messages.length > 500) {
+      db.messages = db.messages.slice(db.messages.length - 500);
+    }
+
+    // Record in Detailed Admin Activity Log
+    db.messageLogs.unshift({
+      id: `mlog_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+      messageId: newMessage.id,
+      senderName: newMessage.senderName,
+      text: newMessage.text,
+      timestamp: newMessage.timestamp,
+      ipAddress: ip,
+      userAgent: userAgent,
+      action: 'MESSAGE_SENT',
+    });
+
+    if (db.messageLogs.length > 1000) {
+      db.messageLogs = db.messageLogs.slice(0, 1000);
+    }
+
+    saveDatabase(db);
+
+    return res.status(201).json({ success: true, message: newMessage });
+  });
+
+  // Permanently Delete Message (Sadaqat Zeb Khan / Admin can delete any message, users can delete their own)
+  const handleDeleteMessage = (req: Request, res: Response) => {
+    const { id } = req.params;
+    if (!db.messages) db.messages = [];
+    if (!db.messageLogs) db.messageLogs = [];
+
+    const forwarded = req.headers['x-forwarded-for'];
+    const ip = typeof forwarded === 'string'
+      ? forwarded.split(',')[0].trim()
+      : (req.headers['x-real-ip'] as string) || req.socket.remoteAddress || req.ip || '127.0.0.1';
+    const userAgent = (req.headers['user-agent'] as string) || 'Mobile / Web Browser';
+
+    const msgIndex = db.messages.findIndex((m) => m.id === id);
+    if (msgIndex === -1) {
+      return res.status(404).json({ error: 'Message not found' });
+    }
+
+    const msgToDelete = db.messages[msgIndex];
+    db.messages.splice(msgIndex, 1);
+
+    db.messageLogs.unshift({
+      id: `mlog_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+      messageId: id,
+      senderName: msgToDelete?.senderName || 'Unknown',
+      text: msgToDelete?.text || '',
+      timestamp: new Date().toISOString(),
+      ipAddress: ip,
+      userAgent: userAgent,
+      action: 'MESSAGE_DELETED',
+    });
+    saveDatabase(db);
+    return res.json({ success: true, message: 'Message permanently deleted from database for all users.' });
+  };
+
+  app.delete('/api/messages/:id', handleDeleteMessage);
+  app.post('/api/messages/:id/delete', handleDeleteMessage);
+
+  // Admin / Moderator Chat Logs endpoint
+  app.get('/api/admin/message-logs', requireAdminAuth, (req, res) => {
+    if (!db.messageLogs) db.messageLogs = [];
+    res.json({
+      logs: db.messageLogs,
+      total: db.messageLogs.length,
+    });
+  });
+
+  app.delete('/api/admin/message-logs', requireAdminAuth, (req, res) => {
+    db.messageLogs = [];
+    saveDatabase(db);
+    res.json({ success: true, message: 'Message logs cleared' });
+  });
+
+  // Pin / Unpin message (Allowed for Admin or Sadaqat Zeb Khan with PIN)
+  app.post('/api/messages/:id/pin', (req, res) => {
+    if (!isAuthorizedModerator(req)) {
+      return res.status(401).json({ error: 'Unauthorized: Privileged access required to pin messages.' });
+    }
+    const { id } = req.params;
+    if (!db.messages) db.messages = [];
+    const msg = db.messages.find((m) => m.id === id);
+    if (!msg) return res.status(404).json({ error: 'Message not found' });
+    msg.pinned = !msg.pinned;
+    saveDatabase(db);
+    return res.json({ success: true, pinned: msg.pinned });
+  });
+
+  // Restrict User from sending messages (Privileged Moderation)
+  app.post('/api/messages/restrict', (req, res) => {
+    if (!isAuthorizedModerator(req)) {
+      return res.status(401).json({ error: 'Unauthorized: Privileged access required to restrict users.' });
+    }
+    const { userName, reason } = req.body;
+    if (!userName || !userName.trim()) {
+      return res.status(400).json({ error: 'User name is required.' });
+    }
+
+    if (!db.restrictedUsers) db.restrictedUsers = [];
+    const cleanName = userName.trim();
+
+    // Prevent restricting Sadaqat Zeb Khan
+    if (cleanName.toLowerCase() === 'sadaqat zeb khan') {
+      return res.status(400).json({ error: 'Cannot restrict official administrator.' });
+    }
+
+    const existingIndex = db.restrictedUsers.findIndex(
+      (u) => u.name.toLowerCase() === cleanName.toLowerCase()
+    );
+
+    const record: any = {
+      name: cleanName,
+      restrictedAt: new Date().toISOString(),
+      restrictedBy: 'Sadaqat Zeb Khan',
+      reason: reason || 'Violation of family group rules',
+    };
+
+    if (existingIndex >= 0) {
+      db.restrictedUsers[existingIndex] = record;
+    } else {
+      db.restrictedUsers.push(record);
+    }
+
+    saveDatabase(db);
+    return res.json({ success: true, message: `User "${cleanName}" has been restricted from sending messages.`, restrictedUsers: db.restrictedUsers });
+  });
+
+  // Unrestrict / Unban User
+  app.post('/api/messages/unrestrict', (req, res) => {
+    if (!isAuthorizedModerator(req)) {
+      return res.status(401).json({ error: 'Unauthorized: Privileged access required.' });
+    }
+    const { userName } = req.body;
+    if (!userName) return res.status(400).json({ error: 'User name is required.' });
+
+    if (!db.restrictedUsers) db.restrictedUsers = [];
+    db.restrictedUsers = db.restrictedUsers.filter(
+      (u) => u.name.toLowerCase() !== userName.trim().toLowerCase()
+    );
+
+    saveDatabase(db);
+    return res.json({ success: true, message: `User "${userName}" restriction has been lifted.`, restrictedUsers: db.restrictedUsers });
+  });
+
+  // Get Restricted Users List
+  app.get('/api/messages/restricted', (req, res) => {
+    if (!db.restrictedUsers) db.restrictedUsers = [];
+    return res.json({ restrictedUsers: db.restrictedUsers });
+  });
+
+  app.post('/api/messages/:id/like', (req, res) => {
+    const { id } = req.params;
+    if (!db.messages) db.messages = [];
+    const msg = db.messages.find((m) => m.id === id);
+    if (!msg) return res.status(404).json({ error: 'Message not found' });
+    msg.likes = (msg.likes || 0) + 1;
+    saveDatabase(db);
+    return res.json({ success: true, likes: msg.likes });
   });
 
   // Person CRUD

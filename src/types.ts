@@ -47,11 +47,45 @@ export interface AuditLog {
   newValue?: string;
 }
 
+export interface ChatMessage {
+  id: string;
+  senderName: string;
+  senderBranch?: string | null;
+  text: string;
+  timestamp: string;
+  pinned?: boolean;
+  isVerified?: boolean;
+  likes?: number;
+  ipAddress?: string;
+  userAgent?: string;
+}
+
+export interface ChatMessageLog {
+  id: string;
+  messageId: string;
+  senderName: string;
+  text: string;
+  timestamp: string;
+  ipAddress: string;
+  userAgent: string;
+  action: 'MESSAGE_SENT' | 'MESSAGE_DELETED';
+}
+
+export interface RestrictedUser {
+  name: string;
+  restrictedAt: string;
+  restrictedBy?: string;
+  reason?: string;
+}
+
 export interface FamilyDatabase {
   people: Person[];
   relationships: Relationship[];
   branches: FamilyBranch[];
   auditLogs: AuditLog[];
+  messages?: ChatMessage[];
+  messageLogs?: ChatMessageLog[];
+  restrictedUsers?: RestrictedUser[];
   adminPasswordHash?: string;
   version: string;
   lastUpdated: string;

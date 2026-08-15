@@ -1,8 +1,9 @@
 import React from 'react';
-import { Network, Users, GitFork, Heart, ArrowRight, BookOpen, FileText, Phone, Mail, Code, Award, QrCode, Smartphone, Download, Share2, Sparkles } from 'lucide-react';
+import { Network, Users, GitFork, Heart, ArrowRight, BookOpen, FileText, Phone, Mail, Code, Award, QrCode, Smartphone, Download, Share2, Sparkles, MessageSquare } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { Person, FamilyBranch } from '../types';
 import { DEVELOPER_PHOTO } from '../assets/developerPhoto';
+import { FamilyGroupChat } from '../components/FamilyGroupChat';
 
 interface HomePageProps {
   stats: {
@@ -15,7 +16,8 @@ interface HomePageProps {
   };
   branches: FamilyBranch[];
   people: Person[];
-  onNavigate: (page: 'home' | 'tree' | 'people' | 'branches' | 'admin') => void;
+  isAdmin?: boolean;
+  onNavigate: (page: 'home' | 'tree' | 'people' | 'branches' | 'chat' | 'admin') => void;
   onSelectPerson: (person: Person) => void;
   onSearchClick: () => void;
   onOpenPdfModal?: () => void;
@@ -26,7 +28,9 @@ interface HomePageProps {
 
 export const HomePage: React.FC<HomePageProps> = ({
   stats,
+  branches,
   people,
+  isAdmin = false,
   onNavigate,
   onSelectPerson,
   onOpenPdfModal,
@@ -36,6 +40,13 @@ export const HomePage: React.FC<HomePageProps> = ({
 }) => {
   const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://ais-dev-x2we7do72ndb63elibgcz7-117321917077.asia-east1.run.app';
   const [installSuccess, setInstallSuccess] = React.useState(false);
+
+  const scrollToChat = () => {
+    const el = document.getElementById('family-group-chat-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const handleDeviceDownload = async () => {
     // 1. Direct download real Android APK file into device storage
@@ -112,11 +123,20 @@ export const HomePage: React.FC<HomePageProps> = ({
               <span>تمام افراد کی فہرست (Directory)</span>
             </button>
 
+            <button
+              onClick={() => onNavigate('chat')}
+              id="hero-family-chat-button"
+              className="flex items-center gap-2 bg-amber-50 text-amber-950 border border-amber-300 px-5 sm:px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg hover:bg-amber-100 transition-colors shadow-2xs"
+            >
+              <MessageSquare className="w-4 h-4 text-[#c2410c]" />
+              <span>خاندانی گروپ چیٹ (Group Messages)</span>
+            </button>
+
             {onOpenPdfModal && (
               <button
                 onClick={onOpenPdfModal}
                 id="hero-open-pdf-button"
-                className="flex items-center gap-2 bg-amber-50 text-amber-900 border border-amber-300 px-5 sm:px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg hover:bg-amber-100 transition-colors shadow-2xs"
+                className="flex items-center gap-2 bg-white text-gray-800 border border-gray-300 px-5 sm:px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg hover:bg-gray-50 transition-colors shadow-2xs"
               >
                 <BookOpen className="w-4 h-4 text-[#c2410c]" />
                 <span>شجرہ نسب کی کتاب (PDF)</span>
@@ -125,6 +145,16 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
         </div>
       </section>
+
+      {/* LIVE FAMILY GROUP CHAT & NOTICE BOARD (Placed near the top on HomePage) */}
+      <div id="family-group-chat-section" className="scroll-mt-24">
+        <FamilyGroupChat
+          branches={branches}
+          isAdmin={isAdmin}
+          onOpenAdminLogin={() => onNavigate('admin')}
+          onOpenChatPage={() => onNavigate('chat')}
+        />
+      </div>
 
       {/* QR CODE SCANNER & APP DOWNLOAD (Clean, Minimalist Layout) */}
       <section className="bg-white border border-black/10 rounded-xl p-6 sm:p-8 shadow-2xs">

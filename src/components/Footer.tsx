@@ -2,7 +2,7 @@ import React from 'react';
 import { Shield, QrCode, Smartphone } from 'lucide-react';
 
 interface FooterProps {
-  onNavigate: (page: 'home' | 'tree' | 'people' | 'branches' | 'admin') => void;
+  onNavigate: (page: 'home' | 'tree' | 'people' | 'branches' | 'chat' | 'admin') => void;
   lastUpdated?: string;
 }
 
@@ -42,6 +42,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, lastUpdated }) => {
               <li>
                 <button onClick={() => onNavigate('branches')} className="hover:text-white hover:underline transition-colors">
                   Family Branches
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('chat')} className="hover:text-white hover:underline transition-colors text-amber-300 font-bold">
+                  Family Chat (گروپ چیٹ)
                 </button>
               </li>
             </ul>

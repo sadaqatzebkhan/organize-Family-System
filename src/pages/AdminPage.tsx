@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Person, FamilyBranch, AuditLog, ImportPreviewResult } from '../types';
+import { Person, FamilyBranch, AuditLog, ImportPreviewResult, ChatMessageLog } from '../types';
 import { api } from '../services/api';
 import {
   ShieldCheck,
@@ -31,6 +31,13 @@ import {
   MapPin,
   Briefcase,
   HelpCircle,
+  MessageSquare,
+  Globe,
+  Laptop,
+  Smartphone,
+  Copy,
+  Check,
+  Clock,
 } from 'lucide-react';
 import { validateRelationship } from '../lib/utils';
 
@@ -42,7 +49,7 @@ interface AdminPageProps {
   setIsAdmin: (val: boolean) => void;
   onSelectPerson?: (person: Person) => void;
   onFocusInTree?: (personId: string) => void;
-  onNavigate?: (page: 'home' | 'tree' | 'people' | 'branches' | 'admin') => void;
+  onNavigate?: (page: 'home' | 'tree' | 'people' | 'branches' | 'chat' | 'admin') => void;
 }
 
 export const AdminPage: React.FC<AdminPageProps> = ({
@@ -57,7 +64,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
 }) => {
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [activeTab, setActiveTab] = useState<'people' | 'branches' | 'tree_links' | 'import_export' | 'audit_logs' | 'settings'>('people');
+  const [activeTab, setActiveTab] = useState<'people' | 'branches' | 'tree_links' | 'import_export' | 'audit_logs' | 'chat_logs' | 'settings'>('people');
 
   // Search & Filter state for People Table
   const [searchQuery, setSearchQuery] = useState('');
@@ -106,6 +113,12 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
   const [isLoadingLogs, setIsLoadingLogs] = useState(false);
 
+  // Chat & IP Activity Logs state
+  const [messageLogs, setMessageLogs] = useState<ChatMessageLog[]>([]);
+  const [isLoadingMsgLogs, setIsLoadingLogsMsg] = useState(false);
+  const [msgLogSearch, setMsgLogSearch] = useState('');
+  const [copiedLogIp, setCopiedLogIp] = useState<string | null>(null);
+
   // Settings state
   const [newPassword, setNewPassword] = useState('');
   const [settingsMessage, setSettingsMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -121,6 +134,8 @@ export const AdminPage: React.FC<AdminPageProps> = ({
   useEffect(() => {
     if (isAdmin && activeTab === 'audit_logs') {
       fetchAuditLogs();
+    } else if (isAdmin && activeTab === 'chat_logs') {
+      fetchMessageLogs();
     }
   }, [isAdmin, activeTab]);
 
@@ -133,6 +148,29 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       console.error(e);
     } finally {
       setIsLoadingLogs(false);
+    }
+  };
+
+  const fetchMessageLogs = async () => {
+    setIsLoadingLogsMsg(true);
+    try {
+      const logs = await api.getMessageLogs();
+      setMessageLogs(logs);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoadingLogsMsg(false);
+    }
+  };
+
+  const handleClearMessageLogs = async () => {
+    if (!confirm('کیا آپ واقعی تمام میسج اور آئی پی لاگز صاف کرنا چاہتے ہیں؟')) return;
+    try {
+      await api.clearMessageLogs();
+      setMessageLogs([]);
+      setStatusMsg({ type: 'success', text: 'لاگ ڈیٹا کامیابی سے صاف کر دیا گیا۔' });
+    } catch (e: any) {
+      setStatusMsg({ type: 'error', text: 'خرابی: ' + (e.message || 'Error') });
     }
   };
 
@@ -709,6 +747,19 @@ export const AdminPage: React.FC<AdminPageProps> = ({
         >
           <FileText className="w-3.5 h-3.5 text-[#c2410c]" />
           <span>تبدیلیوں کی تاریخ (Audit Logs)</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setActiveTab('chat_logs');
+            fetchMessageLogs();
+          }}
+          className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs font-bold transition-colors shrink-0 ${
+            activeTab === 'chat_logs' ? 'bg-[#1a1a1a] text-white shadow-xs' : 'text-gray-600 hover:text-[#1a1a1a] hover:bg-gray-100'
+          }`}
+        >
+          <MessageSquare className="w-3.5 h-3.5 text-[#c2410c]" />
+          <span>پیغامات و لاگ ڈیٹا (Chat & IP Logs - {messageLogs.length})</span>
         </button>
 
         <button
@@ -1445,7 +1496,192 @@ export const AdminPage: React.FC<AdminPageProps> = ({
       )}
 
       {/* ========================================================================= */}
-      {/* TAB 6: SETTINGS & PASSWORD                                                 */}
+      {/* TAB 6: CHAT & IP ACTIVITY LOGS (App Log Data)                              */}
+      {/* ========================================================================= */}
+      {activeTab === 'chat_logs' && (
+        <div className="bg-white p-5 sm:p-6 rounded-xl border border-gray-200 shadow-2xs space-y-5">
+          
+          {/* Header & Actions */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="serif text-lg sm:text-xl font-bold text-[#1a1a1a]">
+                  پیغامات و آئی پی لاگ ڈیٹا (Chat & IP Activity Logs)
+                </h3>
+                <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-[#c2410c] text-[10px] font-bold border border-amber-300">
+                  {messageLogs.length} لاگز محفوظ
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                جب بھی کوئی فرد پیغام بھیجتا ہے تو اس کا نام، پیغام، وقت، آئی پی ایڈریس (IP Address) اور ڈیوائس کی تفصیلات یہاں محفوظ ہوتی ہیں۔
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 flex-wrap">
+              <button
+                onClick={fetchMessageLogs}
+                disabled={isLoadingMsgLogs}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold transition-colors"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${isLoadingMsgLogs ? 'animate-spin' : ''}`} />
+                <span>ریفریش لاگز</span>
+              </button>
+
+              {messageLogs.length > 0 && (
+                <button
+                  onClick={handleClearMessageLogs}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold transition-colors"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>لاگز صاف کریں (Clear)</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Search & Filter Bar */}
+          <div className="flex items-center gap-3">
+            <div className="relative flex-1">
+              <Search className="w-4 h-4 text-gray-400 absolute right-3 top-2.5" />
+              <input
+                type="text"
+                value={msgLogSearch}
+                onChange={(e) => setMsgLogSearch(e.target.value)}
+                placeholder="نام، پیغام یا آئی پی ایڈریس (IP Address) سے تلاش کریں..."
+                className="w-full bg-[#fcfaf7] border border-gray-300 rounded-lg pr-9 pl-4 py-2 text-xs text-[#1a1a1a] focus:outline-none focus:border-[#c2410c]"
+              />
+            </div>
+          </div>
+
+          {/* Logs List / Table */}
+          <div className="space-y-3 max-h-[650px] overflow-y-auto">
+            {isLoadingMsgLogs ? (
+              <div className="p-8 text-center text-gray-500 text-xs flex flex-col items-center justify-center gap-2">
+                <RefreshCw className="w-5 h-5 animate-spin text-[#c2410c]" />
+                <span>لاگ ڈیٹا لوڈ ہو رہا ہے...</span>
+              </div>
+            ) : messageLogs.length === 0 ? (
+              <div className="p-8 text-center text-gray-500 text-xs space-y-2 bg-[#fcfaf7] rounded-xl border border-gray-200">
+                <MessageSquare className="w-8 h-8 mx-auto text-gray-400 opacity-60" />
+                <p className="font-bold text-[#1a1a1a]">ابھی تک کوئی لاگ ریکارڈ نہیں ملا۔</p>
+                <p className="text-gray-500 text-[11px]">جیسے ہی کوئی ممبر پیغام بھیجے گا، اس کا مکمل لاگ اور آئی پی ایڈریس یہاں خودکار ریکارڈ ہو جائے گا۔</p>
+              </div>
+            ) : (
+              messageLogs
+                .filter((l) => {
+                  if (!msgLogSearch.trim()) return true;
+                  const q = msgLogSearch.toLowerCase();
+                  return (
+                    l.senderName.toLowerCase().includes(q) ||
+                    l.text.toLowerCase().includes(q) ||
+                    l.ipAddress.toLowerCase().includes(q) ||
+                    l.userAgent.toLowerCase().includes(q)
+                  );
+                })
+                .map((log) => {
+                  const isMobile = /mobile|android|iphone|ipad/i.test(log.userAgent);
+
+                  return (
+                    <div
+                      key={log.id}
+                      className="p-4 rounded-xl bg-[#fcfaf7] border border-gray-200 text-xs space-y-2.5 transition-all hover:border-gray-300 shadow-2xs"
+                    >
+                      {/* Top Bar of Log Entry */}
+                      <div className="flex items-center justify-between gap-3 flex-wrap border-b border-gray-200/80 pb-2">
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                              log.action === 'MESSAGE_SENT'
+                                ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                                : 'bg-red-100 text-red-900 border border-red-300'
+                            }`}
+                          >
+                            {log.action === 'MESSAGE_SENT' ? 'پیغام بھیجا گیا' : 'پیغام حذف کیا گیا'}
+                          </span>
+
+                          <span className="font-bold text-sm text-[#1a1a1a]">
+                            {log.senderName}
+                          </span>
+                        </div>
+
+                        {/* Timestamp */}
+                        <div className="text-[11px] text-gray-500 flex items-center gap-1 font-mono">
+                          <Clock className="w-3.5 h-3.5 text-gray-400" />
+                          <span>
+                            {new Date(log.timestamp).toLocaleString('ur-PK', {
+                              dateStyle: 'medium',
+                              timeStyle: 'medium',
+                            })}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Message Content Preview */}
+                      <div className="bg-white p-3 rounded-lg border border-gray-200 text-gray-800 leading-relaxed text-xs">
+                        <strong className="text-gray-500 text-[10px] block mb-0.5">پیغام کا متن (Message Text):</strong>
+                        <span>{log.text || '(خالی یا غیر دستیاب)'}</span>
+                      </div>
+
+                      {/* Technical Audit Metadata (IP Address + Device Info) */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                        
+                        {/* IP Address */}
+                        <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-gray-200">
+                          <div className="flex items-center gap-2">
+                            <Globe className="w-4 h-4 text-[#c2410c]" />
+                            <div>
+                              <span className="text-[10px] text-gray-400 block">آئی پی ایڈریس (IP Address)</span>
+                              <code className="text-[11px] font-bold text-gray-900 font-mono">
+                                {log.ipAddress}
+                              </code>
+                            </div>
+                          </div>
+
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText(log.ipAddress);
+                              setCopiedLogIp(log.id);
+                              setTimeout(() => setCopiedLogIp(null), 2000);
+                            }}
+                            className="p-1 text-gray-400 hover:text-black rounded"
+                            title="آئی پی کاپی کریں"
+                          >
+                            {copiedLogIp === log.id ? (
+                              <Check className="w-3.5 h-3.5 text-emerald-600" />
+                            ) : (
+                              <Copy className="w-3.5 h-3.5" />
+                            )}
+                          </button>
+                        </div>
+
+                        {/* Device / User-Agent */}
+                        <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-gray-200">
+                          {isMobile ? (
+                            <Smartphone className="w-4 h-4 text-indigo-600 shrink-0" />
+                          ) : (
+                            <Laptop className="w-4 h-4 text-emerald-600 shrink-0" />
+                          )}
+                          <div className="truncate">
+                            <span className="text-[10px] text-gray-400 block">ڈیوائس و براؤزر (Device & Browser)</span>
+                            <span className="text-[11px] font-medium text-gray-700 truncate block" title={log.userAgent}>
+                              {isMobile ? 'موبائل ڈیوائس (Mobile)' : 'کمپیوٹر / لیپ ٹاپ (Desktop)'} • {log.userAgent.slice(0, 45)}...
+                            </span>
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  );
+                })
+            )}
+          </div>
+
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* TAB 7: SETTINGS & PASSWORD                                                 */}
       {/* ========================================================================= */}
       {activeTab === 'settings' && (
         <div className="max-w-xl space-y-6">

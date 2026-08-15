@@ -13,13 +13,14 @@ import { HomePage } from './pages/HomePage';
 import { FamilyTreePage } from './pages/FamilyTreePage';
 import { PeopleDirectoryPage } from './pages/PeopleDirectoryPage';
 import { FamilyBranchesPage } from './pages/FamilyBranchesPage';
+import { FamilyChatPage } from './pages/FamilyChatPage';
 import { AdminPage } from './pages/AdminPage';
 import { PdfExportModal } from './components/PdfExportModal';
 import { InstallModal } from './components/InstallModal';
 import { Search, X, Loader2, RefreshCw, Trash2 } from 'lucide-react';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'tree' | 'people' | 'branches' | 'admin'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'tree' | 'people' | 'branches' | 'chat' | 'admin'>('home');
   const [people, setPeople] = useState<Person[]>([]);
   const [branches, setBranches] = useState<FamilyBranch[]>([]);
   const [personToDeleteGlobal, setPersonToDeleteGlobal] = useState<Person | null>(null);
@@ -154,21 +155,23 @@ export default function App() {
     <div className="min-h-screen bg-[#fcfaf7] text-[#1a1a1a] font-sans selection:bg-[#1a1a1a] selection:text-white flex flex-col justify-between">
       
       <div>
-        {/* Top Navigation */}
-        <Header
-          currentPage={currentPage}
-          onNavigate={(page) => {
-            setCurrentPage(page);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          isAdmin={isAdmin}
-          onSearchClick={() => setIsSearchOpen(true)}
-          onOpenPdfModal={() => setIsPdfModalOpen(true)}
-          onOpenInstallModal={() => setIsInstallModalOpen(true)}
-        />
+        {/* Top Navigation (Hidden on Chat page for full-screen experience) */}
+        {currentPage !== 'chat' && (
+          <Header
+            currentPage={currentPage}
+            onNavigate={(page) => {
+              setCurrentPage(page);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            isAdmin={isAdmin}
+            onSearchClick={() => setIsSearchOpen(true)}
+            onOpenPdfModal={() => setIsPdfModalOpen(true)}
+            onOpenInstallModal={() => setIsInstallModalOpen(true)}
+          />
+        )}
 
         {/* Main Content Area */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-8">
+        <main className={currentPage === 'chat' ? 'w-full h-screen p-0 m-0 overflow-hidden' : 'max-w-7xl mx-auto px-4 sm:px-8'}>
           {loading ? (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
               <Loader2 className="w-8 h-8 text-[#1a1a1a] animate-spin" />
@@ -183,7 +186,7 @@ export default function App() {
               </h3>
               <p className="text-xs text-gray-600">{error}</p>
               <button
-                onClick={loadData}
+                onClick={() => loadData(true)}
                 className="px-6 py-2.5 rounded bg-[#1a1a1a] text-white font-bold text-xs hover:bg-gray-800 transition-colors inline-flex items-center gap-2"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
@@ -197,6 +200,7 @@ export default function App() {
                   stats={stats}
                   branches={branches}
                   people={people}
+                  isAdmin={isAdmin}
                   onNavigate={setCurrentPage}
                   onSelectPerson={(p) => setSelectedPerson(p)}
                   onSearchClick={() => setIsSearchOpen(true)}
@@ -237,6 +241,15 @@ export default function App() {
                 />
               )}
 
+              {currentPage === 'chat' && (
+                <FamilyChatPage
+                  branches={branches}
+                  isAdmin={isAdmin}
+                  onNavigate={setCurrentPage}
+                  onRefreshGlobal={() => loadData(false)}
+                />
+              )}
+
               {currentPage === 'admin' && (
                 <AdminPage
                   people={people}
@@ -254,11 +267,13 @@ export default function App() {
         </main>
       </div>
 
-      {/* Footer */}
-      <Footer
-        onNavigate={setCurrentPage}
-        lastUpdated={lastUpdated}
-      />
+      {/* Footer (Hidden on Chat page for clean full-screen chat experience) */}
+      {currentPage !== 'chat' && (
+        <Footer
+          onNavigate={setCurrentPage}
+          lastUpdated={lastUpdated}
+        />
+      )}
 
       {/* Person Profile Modal */}
       <PersonProfileModal

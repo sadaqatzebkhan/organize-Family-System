@@ -1,4 +1,4 @@
-import { FamilyDatabase, Person, FamilyBranch, AuditLog, ImportPreviewResult } from '../types';
+import { FamilyDatabase, Person, FamilyBranch, AuditLog, ImportPreviewResult, ChatMessage, ChatMessageLog } from '../types';
 import { initialDatabase } from '../data/seedData';
 
 const ADMIN_TOKEN_KEY = 'mazid_khail_admin_token';
@@ -434,6 +434,195 @@ export const api = {
     } catch (e) {
       const db = getLocalDatabase();
       return db.auditLogs || [];
+    }
+  },
+
+  // Family Group Messages
+  getMessages: async (): Promise<ChatMessage[]> => {
+    try {
+      const res = await fetchApi<{ messages: ChatMessage[]; total: number }>('/api/messages');
+      return res.messages || [];
+    } catch (e) {
+      const db = getLocalDatabase();
+      return db.messages || [];
+    }
+  },
+
+  sendMessage: async (senderName: string, text: string, senderBranch?: string, isVerified?: boolean, pin?: string): Promise<ChatMessage> => {
+    try {
+      const res = await fetchApi<{ success: boolean; message: ChatMessage }>('/api/messages', {
+        method: 'POST',
+        body: JSON.stringify({ senderName, text, senderBranch, isVerified, pin }),
+      });
+      return res.message;
+    } catch (e) {
+      const db = getLocalDatabase();
+      if (!db.messages) db.messages = [];
+      const isOfficial = pin === '0000000000' || isVerified || senderName.trim().toLowerCase() === 'sadaqat zeb khan';
+      const newMsg: ChatMessage = {
+        id: `msg_local_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+        senderName: isOfficial ? 'Sadaqat Zeb Khan' : senderName.trim(),
+        senderBranch: senderBranch?.trim() || null,
+        text: text.trim(),
+        timestamp: new Date().toISOString(),
+        pinned: false,
+        isVerified: isOfficial,
+        likes: 0,
+      };
+      db.messages.push(newMsg);
+      saveLocalDatabase(db);
+      return newMsg;
+    }
+  },
+
+  deleteMessage: async (id: string, pin?: string): Promise<{ success: boolean }> => {
+    try {
+      const headers: Record<string, string> = {};
+      if (pin) headers['x-admin-pin'] = pin;
+      return await fetchApi<{ success: boolean }>(`/api/messages/${id}`, {
+        method: 'DELETE',
+        headers,
+      });
+    } catch (e) {
+      try {
+        const headers: Record<string, string> = {};
+        if (pin) headers['x-admin-pin'] = pin;
+        return await fetchApi<{ success: boolean }>(`/api/messages/${id}/delete`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ pin }),
+        });
+      } catch (err) {
+        console.error('Delete message server error, applying local fallback:', err);
+        const db = getLocalDatabase();
+        if (db.messages) {
+          db.messages = db.messages.filter((m) => m.id !== id);
+          saveLocalDatabase(db);
+        }
+        return { success: true };
+      }
+    }
+  },
+
+  togglePinMessage: async (id: string, pin?: string): Promise<{ success: boolean; pinned: boolean }> => {
+    try {
+      const headers: Record<string, string> = {};
+      if (pin) headers['x-admin-pin'] = pin;
+      return await fetchApi<{ success: boolean; pinned: boolean }>(`/api/messages/${id}/pin`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ pin }),
+      });
+    } catch (e) {
+      const db = getLocalDatabase();
+      let pinned = false;
+      if (db.messages) {
+        const msg = db.messages.find((m) => m.id === id);
+        if (msg) {
+          msg.pinned = !msg.pinned;
+          pinned = msg.pinned;
+          saveLocalDatabase(db);
+        }
+      }
+      return { success: true, pinned };
+    }
+  },
+
+  restrictUser: async (userName: string, reason?: string, pin?: string): Promise<{ success: boolean; message: string; restrictedUsers: any[] }> => {
+    try {
+      const headers: Record<string, string> = {};
+      if (pin) headers['x-admin-pin'] = pin;
+      return await fetchApi<{ success: boolean; message: string; restrictedUsers: any[] }>('/api/messages/restrict', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ userName, reason, pin }),
+      });
+    } catch (e) {
+      const db = getLocalDatabase();
+      if (!db.restrictedUsers) db.restrictedUsers = [];
+      const record = {
+        name: userName.trim(),
+        restrictedAt: new Date().toISOString(),
+        restrictedBy: 'Sadaqat Zeb Khan',
+        reason: reason || 'Restricted from chat',
+      };
+      db.restrictedUsers = db.restrictedUsers.filter((u) => u.name.toLowerCase() !== userName.trim().toLowerCase());
+      db.restrictedUsers.push(record);
+      saveLocalDatabase(db);
+      return { success: true, message: `User "${userName}" restricted`, restrictedUsers: db.restrictedUsers };
+    }
+  },
+
+  unrestrictUser: async (userName: string, pin?: string): Promise<{ success: boolean; message: string; restrictedUsers: any[] }> => {
+    try {
+      const headers: Record<string, string> = {};
+      if (pin) headers['x-admin-pin'] = pin;
+      return await fetchApi<{ success: boolean; message: string; restrictedUsers: any[] }>('/api/messages/unrestrict', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ userName, pin }),
+      });
+    } catch (e) {
+      const db = getLocalDatabase();
+      if (db.restrictedUsers) {
+        db.restrictedUsers = db.restrictedUsers.filter((u) => u.name.toLowerCase() !== userName.trim().toLowerCase());
+        saveLocalDatabase(db);
+      }
+      return { success: true, message: `User "${userName}" restriction lifted`, restrictedUsers: db.restrictedUsers || [] };
+    }
+  },
+
+  getRestrictedUsers: async (): Promise<any[]> => {
+    try {
+      const res = await fetchApi<{ restrictedUsers: any[] }>('/api/messages/restricted');
+      return res.restrictedUsers || [];
+    } catch (e) {
+      const db = getLocalDatabase();
+      return db.restrictedUsers || [];
+    }
+  },
+
+  likeMessage: async (id: string): Promise<{ success: boolean; likes: number }> => {
+    try {
+      return await fetchApi<{ success: boolean; likes: number }>(`/api/messages/${id}/like`, {
+        method: 'POST',
+      });
+    } catch (e) {
+      const db = getLocalDatabase();
+      let likes = 0;
+      if (db.messages) {
+        const msg = db.messages.find((m) => m.id === id);
+        if (msg) {
+          msg.likes = (msg.likes || 0) + 1;
+          likes = msg.likes;
+          saveLocalDatabase(db);
+        }
+      }
+      return { success: true, likes };
+    }
+  },
+
+  // Admin Message & IP Activity Logs
+  getMessageLogs: async (): Promise<ChatMessageLog[]> => {
+    try {
+      const res = await fetchApi<{ logs: ChatMessageLog[]; total: number }>('/api/admin/message-logs');
+      return res.logs || [];
+    } catch (e) {
+      const db = getLocalDatabase();
+      return db.messageLogs || [];
+    }
+  },
+
+  clearMessageLogs: async (): Promise<{ success: boolean }> => {
+    try {
+      return await fetchApi<{ success: boolean }>('/api/admin/message-logs', {
+        method: 'DELETE',
+      });
+    } catch (e) {
+      const db = getLocalDatabase();
+      db.messageLogs = [];
+      saveLocalDatabase(db);
+      return { success: true };
     }
   },
 
