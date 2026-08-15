@@ -80,7 +80,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full bg-[#c2410c]"></span>
             <span className="label-caps text-[#c2410c] text-xs font-semibold">
-              The M_Z_K Family Archive • خاندانی تاریخ اور شجرہ نسب
+              THE M_Z_K FAMILY ARCHIVE
             </span>
           </div>
 
