@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Person, FamilyBranch, TreeViewStyle, TreeFilterOptions } from '../types';
+import { Person, FamilyBranch, TreeFilterOptions } from '../types';
 import { TreeControls } from '../components/tree/TreeControls';
-import { TraditionalTree } from '../components/tree/TraditionalTree';
-import { InteractiveTree } from '../components/tree/InteractiveTree';
-import { SinglePageTree } from '../components/tree/SinglePageTree';
+import { UnifiedFamilyTree } from '../components/tree/UnifiedFamilyTree';
 
 interface FamilyTreePageProps {
   people: Person[];
@@ -20,8 +18,6 @@ export const FamilyTreePage: React.FC<FamilyTreePageProps> = ({
   selectedPersonId,
   onClearSelectedPerson,
 }) => {
-  const [viewStyle, setViewStyle] = useState<TreeViewStyle>('traditional');
-  const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [highlightMode, setHighlightMode] = useState<'none' | 'ancestors' | 'descendants'>('none');
 
   const [filterOptions, setFilterOptions] = useState<TreeFilterOptions>({
@@ -33,24 +29,14 @@ export const FamilyTreePage: React.FC<FamilyTreePageProps> = ({
 
   const selectedPerson = people.find((p) => p.id === selectedPersonId);
 
-  // Filter people based on filterOptions
-  const filteredPeople = React.useMemo(() => {
-    return people.filter((p) => {
-      // Branch filter
-      if (filterOptions.selectedBranchId !== 'all' && p.branchId !== filterOptions.selectedBranchId) {
-        return false;
-      }
-      // Generation filter
-      if (filterOptions.selectedGeneration !== 'all' && p.generation !== filterOptions.selectedGeneration) {
-        return false;
-      }
-      // Alive filter
-      if (filterOptions.aliveFilter !== 'all' && p.aliveStatus !== filterOptions.aliveFilter) {
-        return false;
-      }
-      return true;
+  const handleClearFilters = () => {
+    setFilterOptions({
+      searchQuery: '',
+      selectedBranchId: 'all',
+      selectedGeneration: 'all',
+      aliveFilter: 'all',
     });
-  }, [people, filterOptions]);
+  };
 
   return (
     <div className="space-y-4 py-6 animate-fade-in text-[#1a1a1a]">
@@ -58,24 +44,23 @@ export const FamilyTreePage: React.FC<FamilyTreePageProps> = ({
       {/* Title Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-200 pb-4">
         <div>
-          <h1 className="serif text-2xl sm:text-3xl font-light italic text-[#1a1a1a]">
-            Family Tree Visualization
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#c2410c]" />
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#c2410c]">
+              Interactive Lineage Tree
+            </span>
+          </div>
+          <h1 className="serif text-2xl sm:text-3xl font-medium text-[#1a1a1a] mt-0.5">
+            مزید خیل شجرہ نسب (Family Tree)
           </h1>
-          <p className="text-xs text-gray-500 mt-0.5">
-            Switch tree layout styles, filter by generation or branch, and locate ancestor relationships.
+          <p className="text-xs text-gray-500 mt-1">
+            نام تلاش کریں یا شاخ منتخب کریں تاکہ ان کا مکمل ذیلی خاندان اور اولاد نیچے ظاہر ہو جائے۔
           </p>
         </div>
       </div>
 
-      {/* Control Bar */}
+      {/* Control Bar (Clean Filters & Search) */}
       <TreeControls
-        viewStyle={viewStyle}
-        onViewStyleChange={setViewStyle}
-        zoomLevel={zoomLevel}
-        onZoomIn={() => setZoomLevel((z) => Math.min(z + 0.2, 2.5))}
-        onZoomOut={() => setZoomLevel((z) => Math.max(z - 0.2, 0.4))}
-        onResetZoom={() => setZoomLevel(1)}
-        onFitScreen={() => setZoomLevel(0.85)}
         filterOptions={filterOptions}
         onFilterChange={(f) => setFilterOptions((prev) => ({ ...prev, ...f }))}
         branches={branches}
@@ -85,40 +70,23 @@ export const FamilyTreePage: React.FC<FamilyTreePageProps> = ({
         onClearSelectedPerson={onClearSelectedPerson}
       />
 
-      {/* Main Tree Canvas Container */}
-      <div className="relative">
-        {viewStyle === 'singlePage' ? (
-          <SinglePageTree
-            people={filteredPeople}
-            onSelectPerson={onSelectPerson}
-            selectedPersonId={selectedPersonId}
-            searchQuery={filterOptions.searchQuery}
-            zoomLevel={zoomLevel}
-          />
-        ) : viewStyle === 'traditional' ? (
-          <TraditionalTree
-            people={filteredPeople}
-            onSelectPerson={onSelectPerson}
-            selectedPersonId={selectedPersonId}
-            searchQuery={filterOptions.searchQuery}
-            selectedBranchId={filterOptions.selectedBranchId}
-            zoomLevel={zoomLevel}
-          />
-        ) : (
-          <InteractiveTree
-            people={filteredPeople}
-            onSelectPerson={onSelectPerson}
-            selectedPersonId={selectedPersonId}
-            searchQuery={filterOptions.searchQuery}
-            selectedBranchId={filterOptions.selectedBranchId}
-            zoomLevel={zoomLevel}
-            setZoomLevel={setZoomLevel}
-            highlightMode={highlightMode}
-          />
-        )}
+      {/* Main Single Unified Tree Canvas - 100% Screen Fitted, No Horizontal Scroll */}
+      <div className="w-full">
+        <UnifiedFamilyTree
+          people={people}
+          branches={branches}
+          onSelectPerson={onSelectPerson}
+          selectedPersonId={selectedPersonId}
+          searchQuery={filterOptions.searchQuery}
+          selectedBranchId={filterOptions.selectedBranchId}
+          selectedGeneration={filterOptions.selectedGeneration}
+          aliveFilter={filterOptions.aliveFilter}
+          highlightMode={highlightMode}
+          onClearSelectedPerson={onClearSelectedPerson}
+          onClearFilters={handleClearFilters}
+        />
       </div>
 
     </div>
   );
 };
-

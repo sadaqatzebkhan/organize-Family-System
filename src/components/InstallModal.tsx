@@ -147,7 +147,7 @@ export const InstallModal: React.FC<InstallModalProps> = ({
             <div className="space-y-4">
               <div className="bg-white p-4 rounded-xl border border-gray-200/80 flex items-center gap-3.5 shadow-xs">
                 <img 
-                  src="/developer_sadaqat.jpg" 
+                  src="/logo.svg" 
                   alt="Mazid Khail Logo" 
                   className="w-14 h-14 rounded-xl object-cover border border-amber-900/10 shrink-0" 
                   referrerPolicy="no-referrer"
@@ -157,7 +157,7 @@ export const InstallModal: React.FC<InstallModalProps> = ({
                     Official Mobile Application
                   </span>
                   <h4 className="font-bold text-sm sm:text-base text-gray-900 leading-snug">
-                    The Khan Family Archive
+                    The M_Z_K Family
                   </h4>
                   <p className="text-[11px] text-gray-500">
                     85 افراد پر مشتمل مکمل شجرہ نسب اور تاریخ

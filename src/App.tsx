@@ -16,7 +16,6 @@ import { FamilyBranchesPage } from './pages/FamilyBranchesPage';
 import { AdminPage } from './pages/AdminPage';
 import { PdfExportModal } from './components/PdfExportModal';
 import { InstallModal } from './components/InstallModal';
-import { MobileInstallBanner } from './components/MobileInstallBanner';
 import { Search, X, Loader2, RefreshCw, Trash2 } from 'lucide-react';
 
 export default function App() {
@@ -397,12 +396,6 @@ export default function App() {
         onClose={() => setIsInstallModalOpen(false)}
         deferredPrompt={deferredPrompt}
         onInstallSuccess={() => setDeferredPrompt(null)}
-      />
-
-      {/* Auto Floating Mobile Install Banner */}
-      <MobileInstallBanner
-        onOpenModal={() => setIsInstallModalOpen(true)}
-        deferredPrompt={deferredPrompt}
       />
 
     </div>

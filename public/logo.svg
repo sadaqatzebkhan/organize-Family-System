@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <!-- Outer Dark Border -->
+  <rect x="2" y="2" width="116" height="116" rx="24" fill="#18181b" stroke="#000000" stroke-width="2"/>
+  <!-- Inner Rich Terracotta / Orange Background -->
+  <rect x="8" y="8" width="104" height="104" rx="18" fill="#c2410c"/>
+  <!-- MK Monogram -->
+  <text x="60" y="62" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="-0.5">MK</text>
+  <!-- FAMILY ARCHIVE Subtitle -->
+  <text x="60" y="88" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9.5" font-weight="800" fill="#fde047" text-anchor="middle" letter-spacing="0.8">FAMILY ARCHIVE</text>
+</svg>

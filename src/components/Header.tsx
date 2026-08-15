@@ -35,15 +35,24 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Logo & Family Title */}
           <button
             onClick={() => onNavigate('home')}
-            className="flex flex-col text-left focus:outline-none group shrink-0"
+            className="flex items-center gap-3 text-left focus:outline-none group shrink-0"
             id="header-logo-button"
           >
-            <h1 className="serif text-xl sm:text-2xl lg:text-3xl italic font-light tracking-tight text-[#1a1a1a] group-hover:text-[#c2410c] transition-colors whitespace-nowrap">
-              The Khan Family Archive
-            </h1>
-            <span className="label-caps mt-0.5 text-[9px] sm:text-[10px]">
-              Mazid Khail Genealogical Database
-            </span>
+            <div className="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-xl overflow-hidden shadow-sm border border-black/20 group-hover:scale-105 transition-transform">
+              <img
+                src="/logo.svg"
+                alt="MK Family Archive Logo"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex flex-col">
+              <h1 className="serif text-xl sm:text-2xl lg:text-3xl italic font-light tracking-tight text-[#1a1a1a] group-hover:text-[#c2410c] transition-colors whitespace-nowrap">
+                The M_Z_K Family
+              </h1>
+              <span className="label-caps mt-0.5 text-[9px] sm:text-[10px]">
+                with S_Z_K
+              </span>
+            </div>
           </button>
 
           {/* Desktop Navigation */}

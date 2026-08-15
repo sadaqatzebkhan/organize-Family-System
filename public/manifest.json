@@ -1,7 +1,7 @@
 {
   "id": "mazid-khail-family-tree-app",
-  "name": "The Khan Family Archive — Mazid Khail",
-  "short_name": "Mazid Khail",
+  "name": "The M_Z_K Family Archive",
+  "short_name": "M_Z_K Family",
   "description": "Genealogical Record Archive & Interactive Family Tree of Mazid Khail family.",
   "start_url": "/",
   "scope": "/",
@@ -12,9 +12,15 @@
   "categories": ["lifestyle", "reference", "books"],
   "icons": [
     {
-      "src": "/developer_sadaqat.jpg",
+      "src": "/logo.svg",
       "sizes": "192x192 512x512",
-      "type": "image/jpeg",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "256x256",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]

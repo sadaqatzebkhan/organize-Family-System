@@ -61,7 +61,7 @@ export const MobileInstallBanner: React.FC<MobileInstallBannerProps> = ({
         {/* App details */}
         <div className="flex items-center gap-3 min-w-0" onClick={onOpenModal}>
           <img
-            src="/developer_sadaqat.jpg"
+            src="/logo.svg"
             alt="Mazid Khail Icon"
             className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl object-cover border border-white/20 shrink-0 shadow-sm"
             referrerPolicy="no-referrer"
@@ -73,7 +73,7 @@ export const MobileInstallBanner: React.FC<MobileInstallBannerProps> = ({
               </span>
             </div>
             <h4 className="font-bold text-xs sm:text-sm text-white truncate">
-              Mazid Khail Family Archive
+              The M_Z_K Family Archive
             </h4>
             <p className="text-[11px] text-gray-300 truncate">
               موبائل ہوم اسکرین پر انسٹال کریں (1-Tap)

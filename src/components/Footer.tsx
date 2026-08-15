@@ -14,7 +14,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, lastUpdated }) => {
           
           {/* Col 1: About */}
           <div className="md:col-span-2 space-y-3">
-            <h3 className="serif text-xl italic font-light">The Khan Family Archive</h3>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-white/20">
+                <img src="/logo.svg" alt="Logo" className="w-full h-full object-cover" />
+              </div>
+              <h3 className="serif text-xl italic font-light">The M_Z_K Family Archive</h3>
+            </div>
             <p className="text-gray-400 text-xs leading-relaxed max-w-md">
               A private genealogical resource preserving the history, lineage, and descendant branches of the Mazid Khail family tree across generations, compiled from historical family records by Sadaqat Zeb Khan.
             </p>

@@ -75,129 +75,102 @@ export const HomePage: React.FC<HomePageProps> = ({
     <div className="space-y-16 py-8 animate-fade-in text-[#1a1a1a]">
       
       {/* Hero Section - Editorial Aesthetic */}
-      <section className="bg-white border border-black/10 rounded-lg p-8 sm:p-12 lg:p-16 shadow-2xs space-y-8">
+      <section className="bg-white border border-black/10 rounded-xl p-6 sm:p-10 lg:p-14 shadow-2xs space-y-6">
         <div className="max-w-3xl space-y-4">
-          <span className="label-caps text-[#c2410c] block">
-            Genealogical Record Archive
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="inline-block w-2 h-2 rounded-full bg-[#c2410c]"></span>
+            <span className="label-caps text-[#c2410c] text-xs font-semibold">
+              The M_Z_K Family Archive • خاندانی تاریخ اور شجرہ نسب
+            </span>
+          </div>
 
-          <h1 className="serif text-4xl sm:text-6xl font-light italic text-[#1a1a1a] leading-tight">
-            The History & Lineage of <br />
-            <span className="not-italic font-normal">Mazid Khail</span>
+          <h1 className="serif text-3xl sm:text-5xl lg:text-6xl font-medium text-[#1a1a1a] leading-tight tracking-tight">
+            مزید خیل خاندان کا شجرہ نسب اور تاریخ
           </h1>
 
-          <p className="text-gray-600 text-base sm:text-lg leading-relaxed pt-2">
-            Preserving the ancestral lineage, branch connections, and generational heritage originating from the patriarch brothers: Door Muhammad Khan, Noor Muhammad Shah, and Yar Muhammad Shah.
+          <p className="text-gray-700 text-base sm:text-lg leading-relaxed pt-1">
+            یہ ویب سائٹ مزید خیل خاندان کے خاندانی ریکارڈ اور شجرہ نسب کو محفوظ رکھنے کے لیے بنائی گئی ہے۔ یہاں ہمارے تینوں بزرگ بھائیوں — <strong className="text-gray-900 font-semibold">دور محمد خان</strong>، <strong className="text-gray-900 font-semibold">نور محمد شاہ</strong> اور <strong className="text-gray-900 font-semibold">یار محمد شاہ</strong> — کی تمام نسلوں اور افراد کی معلومات آسان اور واضح انداز میں دیکھی جا سکتی ہیں۔
           </p>
 
-          <div className="flex flex-wrap items-center gap-4 pt-4">
+          <div className="flex flex-wrap items-center gap-3 pt-3">
             <button
               onClick={() => onNavigate('tree')}
               id="hero-explore-tree-button"
-              className="flex items-center gap-2 bg-[#1a1a1a] text-white px-6 py-3.5 text-xs font-bold uppercase tracking-wider rounded hover:bg-gray-800 transition-colors shadow-2xs group"
+              className="flex items-center gap-2 bg-[#1a1a1a] text-white px-5 sm:px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg hover:bg-gray-800 transition-colors shadow-2xs group"
             >
-              <Network className="w-4 h-4" />
-              <span>Interactive Family Tree</span>
+              <Network className="w-4 h-4 text-orange-400" />
+              <span>شجرہ نسب دیکھیں (Family Tree)</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
 
             <button
               onClick={() => onNavigate('people')}
               id="hero-search-members-button"
-              className="flex items-center gap-2 bg-white text-[#1a1a1a] border border-gray-300 px-6 py-3.5 text-xs font-bold uppercase tracking-wider rounded hover:border-[#1a1a1a] transition-colors shadow-2xs"
+              className="flex items-center gap-2 bg-white text-[#1a1a1a] border border-gray-300 px-5 sm:px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg hover:border-[#1a1a1a] transition-colors shadow-2xs"
             >
               <Users className="w-4 h-4 text-[#c2410c]" />
-              <span>Browse Directory</span>
+              <span>تمام افراد کی فہرست (Directory)</span>
             </button>
 
             {onOpenPdfModal && (
               <button
                 onClick={onOpenPdfModal}
                 id="hero-open-pdf-button"
-                className="flex items-center gap-2 bg-amber-50 text-amber-900 border border-amber-300 px-6 py-3.5 text-xs font-bold uppercase tracking-wider rounded hover:bg-amber-100 transition-colors shadow-2xs"
+                className="flex items-center gap-2 bg-amber-50 text-amber-900 border border-amber-300 px-5 sm:px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg hover:bg-amber-100 transition-colors shadow-2xs"
               >
                 <BookOpen className="w-4 h-4 text-[#c2410c]" />
-                <span>PDF Front Page & Book</span>
+                <span>شجرہ نسب کی کتاب (PDF)</span>
               </button>
             )}
           </div>
         </div>
       </section>
 
-      {/* MOBILE APP & SCAN QR CODE SECTION */}
-      <section className="bg-white border-2 border-gray-200 rounded-xl p-6 sm:p-8 shadow-2xs space-y-6">
-        <div className="flex items-center gap-3 border-b border-gray-200 pb-4">
-          <div className="p-2.5 rounded-lg bg-orange-50 text-[#c2410c] border border-orange-200">
-            <Smartphone className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="label-caps text-[#c2410c]">Mobile Application</span>
-            <h2 className="serif text-2xl font-bold text-[#1a1a1a]">
-              Scan & Install on Mobile Phone
-            </h2>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-[#fcfaf7] p-6 sm:p-8 rounded-xl border border-gray-200">
-          
-          {/* QR Code Container with single button directly below it */}
-          <div className="md:col-span-5 flex flex-col items-center justify-center text-center space-y-3 bg-white p-5 rounded-xl border border-gray-200 shadow-2xs">
-            <div className="bg-white p-3 rounded-lg border border-gray-200 shadow-xs">
+      {/* QR CODE SCANNER & APP DOWNLOAD (Clean, Minimalist Layout) */}
+      <section className="bg-white border border-black/10 rounded-xl p-6 sm:p-8 shadow-2xs">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+          {/* QR Code Container */}
+          <div className="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+            <div className="bg-white p-3 rounded-xl border-2 border-gray-200 shadow-sm shrink-0">
               <QRCodeSVG
                 value={currentUrl}
-                size={160}
+                size={130}
                 level="M"
                 includeMargin={true}
                 fgColor="#1a1a1a"
               />
             </div>
-            <span className="text-[11px] font-bold text-gray-600 font-mono uppercase tracking-wider">
-              Scan with Phone Camera
-            </span>
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-center sm:justify-start gap-2">
+                <Smartphone className="w-4 h-4 text-[#c2410c]" />
+                <span className="label-caps text-[#c2410c] text-xs font-bold">
+                  Mobile Application Scanner
+                </span>
+              </div>
+              <h3 className="serif text-xl sm:text-2xl font-bold text-[#1a1a1a]">
+                موبائل ایپ ڈاؤن لوڈ و انسٹال کریں
+              </h3>
+              <p className="text-xs text-gray-500 max-w-sm">
+                موبائل کیمرہ سے کیو آر کوڈ اسکین کریں یا براہ راست ڈاؤن لوڈ کا بٹن دبائیں۔
+              </p>
+            </div>
+          </div>
 
-            {/* ONLY ONE DOWNLOAD BUTTON: Directly Below Scanner */}
+          {/* Action Button */}
+          <div className="w-full sm:w-auto shrink-0 flex flex-col items-center sm:items-end gap-2">
             <button
               onClick={handleDeviceDownload}
-              className="w-full flex items-center justify-center gap-2 bg-[#c2410c] hover:bg-[#9a3412] text-white px-5 py-3 rounded-lg text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-98"
+              className="w-full sm:w-auto flex items-center justify-center gap-2.5 bg-[#c2410c] hover:bg-[#9a3412] text-white px-6 py-3.5 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-md active:scale-98"
             >
               <Download className="w-4 h-4 text-amber-300" />
-              <span>Download on this Device</span>
+              <span>Download & Install App</span>
             </button>
-
             {installSuccess && (
-              <div className="w-full bg-emerald-100 border border-emerald-300 text-emerald-800 p-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 animate-fade-in">
-                <span>✓ App Added to Home Screen!</span>
-              </div>
+              <span className="text-xs text-emerald-600 font-medium">
+                ✓ App Added to Home Screen!
+              </span>
             )}
           </div>
-
-          {/* Clean Description & Urdu guidance */}
-          <div className="md:col-span-7 space-y-4">
-            <div>
-              <span className="text-[11px] uppercase font-bold tracking-wider text-[#c2410c] bg-orange-100/70 px-2 py-0.5 rounded">
-                1-Click Instant Mobile Install
-              </span>
-              <h3 className="serif text-xl sm:text-2xl font-bold text-[#1a1a1a] mt-1.5">
-                موبائل ایپ اپنے فون کی اسکرین پر شامل کریں
-              </h3>
-            </div>
-
-            <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-              اپنے موبائل کیمرہ سے کیو آر کوڈ اسکین کریں یا <strong>"Install App on this Device"</strong> کا بٹن دبائیں۔ ایپ کا باقاعدہ آفیشل آئیکن خود بخود آپ کے فون کی مین ہوم اسکرین پر شامل ہو جائے گا اور آپ بغیر انٹرنیٹ بھی مکمل شجرہ نسب اور 85 افراد کا ریکارڈ دیکھ سکیں گے۔
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-xs">
-              <div className="p-3 bg-white border border-gray-200 rounded-lg shadow-2xs">
-                <span className="font-bold text-gray-900 block mb-0.5">⚡ تیز رفتار رسائی:</span>
-                <span className="text-gray-600">براہِ راست 1-ٹیپ میں فل اسکرین موبائل ایپ کھل جاتی ہے۔</span>
-              </div>
-              <div className="p-3 bg-white border border-gray-200 rounded-lg shadow-2xs">
-                <span className="font-bold text-gray-900 block mb-0.5">🔒 محفوظ و ہمیشہ دستیاب:</span>
-                <span className="text-gray-600">خاندان کے تمام افراد باآسانی تلاش اور مطالعہ کر سکتے ہیں۔</span>
-              </div>
-            </div>
-          </div>
-
         </div>
       </section>
 

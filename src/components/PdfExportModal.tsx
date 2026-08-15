@@ -73,7 +73,7 @@ export const PdfExportModal: React.FC<PdfExportModalProps> = ({
                 GENEALOGICAL ARCHIVE & RECORD BOOK
               </div>
               <h1 className="serif text-3xl sm:text-5xl font-bold tracking-tight text-[#1a1a1a] pt-4">
-                The Khan Family Archive
+                The M_Z_K Family Archive
               </h1>
               <p className="serif text-xl sm:text-2xl italic text-gray-700 font-light">
                 Mazid Khail Genealogical Database
