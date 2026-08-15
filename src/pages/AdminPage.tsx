@@ -519,7 +519,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter admin password (default: admin123)"
+              placeholder="پاس ورڈ درج کریں (Enter password)"
               className="w-full bg-[#fcfaf7] border border-gray-300 rounded-lg px-4 py-2.5 text-[#1a1a1a] placeholder-gray-400 focus:outline-none focus:border-[#c2410c] text-xs font-mono"
               required
             />
