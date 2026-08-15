@@ -244,6 +244,9 @@ export default function App() {
                   onRefreshData={loadData}
                   isAdmin={isAdmin}
                   setIsAdmin={setIsAdmin}
+                  onSelectPerson={(p) => setSelectedPerson(p)}
+                  onFocusInTree={handleFocusInTree}
+                  onNavigate={setCurrentPage}
                 />
               )}
             </>
