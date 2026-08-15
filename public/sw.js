@@ -1,5 +1,5 @@
 // Service Worker for Mazid Khail Family Archive PWA
-const CACHE_NAME = 'mazid-khail-cache-v2';
+const CACHE_NAME = 'mazid-khail-cache-v3';
 const PRECACHE_ASSETS = [
   '/',
   '/index.html',
@@ -32,12 +32,20 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  const url = event.request.url;
+
+  // CRITICAL: NEVER cache or intercept /api/ calls - always fetch directly from live backend server!
+  if (url.includes('/api/')) {
+    return;
+  }
+
   if (event.request.method !== 'GET') return;
-  // Network first with cache fallback
+
+  // Network first with cache fallback for static assets
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        if (response && response.status === 200) {
+        if (response && response.status === 200 && event.request.method === 'GET' && !url.includes('/api/')) {
           const responseToCache = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, responseToCache);

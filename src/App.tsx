@@ -49,6 +49,130 @@ export default function App() {
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [quickQuery, setQuickQuery] = useState<string>('');
 
+  // Centralized Navigation Handler with Browser History integration
+  const handleNavigate = (
+    page: 'home' | 'tree' | 'people' | 'branches' | 'chat' | 'admin',
+    pushHistory = true
+  ) => {
+    if (page === currentPage) return;
+    if (pushHistory) {
+      const url = page === 'home' ? window.location.pathname : `?page=${page}`;
+      window.history.pushState({ page, type: 'page' }, '', url);
+    }
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSelectPerson = (person: Person | null, pushHistory = true) => {
+    setSelectedPerson(person);
+    if (person && pushHistory) {
+      window.history.pushState({ modal: 'person', personId: person.id, page: currentPage }, '', `?person=${person.id}`);
+    }
+  };
+
+  const handleClosePerson = () => {
+    setSelectedPerson(null);
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('person')) {
+      params.delete('person');
+      const newSearch = params.toString() ? `?${params.toString()}` : (currentPage === 'home' ? window.location.pathname : `?page=${currentPage}`);
+      window.history.replaceState({ page: currentPage, type: 'page' }, '', newSearch);
+    }
+  };
+
+  const handleToggleSearch = (open: boolean, pushHistory = true) => {
+    setIsSearchOpen(open);
+    if (!open) setQuickQuery('');
+    if (open && pushHistory) {
+      window.history.pushState({ modal: 'search', page: currentPage }, '', window.location.href);
+    }
+  };
+
+  const handleTogglePdfModal = (open: boolean, pushHistory = true) => {
+    setIsPdfModalOpen(open);
+    if (open && pushHistory) {
+      window.history.pushState({ modal: 'pdf', page: currentPage }, '', window.location.href);
+    }
+  };
+
+  const handleToggleInstallModal = (open: boolean, pushHistory = true) => {
+    setIsInstallModalOpen(open);
+    if (open && pushHistory) {
+      window.history.pushState({ modal: 'install', page: currentPage }, '', window.location.href);
+    }
+  };
+
+  // Listen to mobile / browser back button (popstate)
+  useEffect(() => {
+    // Check initial URL parameters on first load
+    const params = new URLSearchParams(window.location.search);
+    const initialPage = params.get('page') as any;
+    if (['home', 'tree', 'people', 'branches', 'chat', 'admin'].includes(initialPage)) {
+      setCurrentPage(initialPage);
+    }
+
+    // Ensure baseline history entry so back button always stays inside the app
+    if (!window.history.state) {
+      window.history.replaceState(
+        { page: initialPage || 'home', type: 'page' },
+        '',
+        window.location.href
+      );
+    }
+
+    const handlePopState = (event: PopStateEvent) => {
+      // 1. If any modal is currently open, close it first without leaving the page
+      if (selectedPerson) {
+        setSelectedPerson(null);
+        return;
+      }
+      if (isSearchOpen) {
+        setIsSearchOpen(false);
+        setQuickQuery('');
+        return;
+      }
+      if (isPdfModalOpen) {
+        setIsPdfModalOpen(false);
+        return;
+      }
+      if (isInstallModalOpen) {
+        setIsInstallModalOpen(false);
+        return;
+      }
+      if (personToDeleteGlobal) {
+        setPersonToDeleteGlobal(null);
+        return;
+      }
+
+      // 2. Otherwise navigate to the page in history state, or fallback to 'home'
+      const state = event.state;
+      if (state && state.page && ['home', 'tree', 'people', 'branches', 'chat', 'admin'].includes(state.page)) {
+        setCurrentPage(state.page);
+      } else {
+        // If user was on a subpage (e.g. chat, tree, people, etc.) and backed to root, go to home
+        setCurrentPage('home');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [selectedPerson, isSearchOpen, isPdfModalOpen, isInstallModalOpen, personToDeleteGlobal]);
+
+  // Open initial person if specified in URL query
+  useEffect(() => {
+    if (people.length > 0 && !selectedPerson) {
+      const params = new URLSearchParams(window.location.search);
+      const personId = params.get('person');
+      if (personId) {
+        const found = people.find((p) => p.id === personId);
+        if (found) {
+          setSelectedPerson(found);
+        }
+      }
+    }
+  }, [people]);
+
   // Handle PWA installation prompt
   useEffect(() => {
     const handleBeforeInstall = (e: Event) => {
@@ -129,12 +253,12 @@ export default function App() {
 
   const handleSelectPersonById = (id: string) => {
     const p = people.find((item) => item.id === id);
-    if (p) setSelectedPerson(p);
+    if (p) handleSelectPerson(p);
   };
 
   const handleFocusInTree = (personId: string) => {
     setSelectedPersonIdForTree(personId);
-    setCurrentPage('tree');
+    handleNavigate('tree');
   };
 
   // Quick Search Results
@@ -159,14 +283,11 @@ export default function App() {
         {currentPage !== 'chat' && (
           <Header
             currentPage={currentPage}
-            onNavigate={(page) => {
-              setCurrentPage(page);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onNavigate={(page) => handleNavigate(page)}
             isAdmin={isAdmin}
-            onSearchClick={() => setIsSearchOpen(true)}
-            onOpenPdfModal={() => setIsPdfModalOpen(true)}
-            onOpenInstallModal={() => setIsInstallModalOpen(true)}
+            onSearchClick={() => handleToggleSearch(true)}
+            onOpenPdfModal={() => handleTogglePdfModal(true)}
+            onOpenInstallModal={() => handleToggleInstallModal(true)}
           />
         )}
 
@@ -201,11 +322,11 @@ export default function App() {
                   branches={branches}
                   people={people}
                   isAdmin={isAdmin}
-                  onNavigate={setCurrentPage}
-                  onSelectPerson={(p) => setSelectedPerson(p)}
-                  onSearchClick={() => setIsSearchOpen(true)}
-                  onOpenPdfModal={() => setIsPdfModalOpen(true)}
-                  onOpenInstallModal={() => setIsInstallModalOpen(true)}
+                  onNavigate={(page) => handleNavigate(page)}
+                  onSelectPerson={(p) => handleSelectPerson(p)}
+                  onSearchClick={() => handleToggleSearch(true)}
+                  onOpenPdfModal={() => handleTogglePdfModal(true)}
+                  onOpenInstallModal={() => handleToggleInstallModal(true)}
                   deferredPrompt={deferredPrompt}
                   onInstallApp={handleInstallApp}
                 />
@@ -215,7 +336,7 @@ export default function App() {
                 <FamilyTreePage
                   people={people}
                   branches={branches}
-                  onSelectPerson={(p) => setSelectedPerson(p)}
+                  onSelectPerson={(p) => handleSelectPerson(p)}
                   selectedPersonId={selectedPersonIdForTree}
                   onClearSelectedPerson={() => setSelectedPersonIdForTree(null)}
                 />
@@ -225,7 +346,7 @@ export default function App() {
                 <PeopleDirectoryPage
                   people={people}
                   branches={branches}
-                  onSelectPerson={(p) => setSelectedPerson(p)}
+                  onSelectPerson={(p) => handleSelectPerson(p)}
                   onFocusInTree={handleFocusInTree}
                   onDeletePerson={isAdmin ? handleDeletePersonGlobal : undefined}
                   isAdmin={isAdmin}
@@ -236,7 +357,7 @@ export default function App() {
                 <FamilyBranchesPage
                   branches={branches}
                   people={people}
-                  onSelectPerson={(p) => setSelectedPerson(p)}
+                  onSelectPerson={(p) => handleSelectPerson(p)}
                   onFocusInTree={handleFocusInTree}
                 />
               )}
@@ -245,7 +366,7 @@ export default function App() {
                 <FamilyChatPage
                   branches={branches}
                   isAdmin={isAdmin}
-                  onNavigate={setCurrentPage}
+                  onNavigate={(page) => handleNavigate(page)}
                   onRefreshGlobal={() => loadData(false)}
                 />
               )}
@@ -257,9 +378,9 @@ export default function App() {
                   onRefreshData={loadData}
                   isAdmin={isAdmin}
                   setIsAdmin={setIsAdmin}
-                  onSelectPerson={(p) => setSelectedPerson(p)}
+                  onSelectPerson={(p) => handleSelectPerson(p)}
                   onFocusInTree={handleFocusInTree}
-                  onNavigate={setCurrentPage}
+                  onNavigate={(page) => handleNavigate(page)}
                 />
               )}
             </>
@@ -270,7 +391,7 @@ export default function App() {
       {/* Footer (Hidden on Chat page for clean full-screen chat experience) */}
       {currentPage !== 'chat' && (
         <Footer
-          onNavigate={setCurrentPage}
+          onNavigate={(page) => handleNavigate(page)}
           lastUpdated={lastUpdated}
         />
       )}
@@ -280,13 +401,13 @@ export default function App() {
         person={selectedPerson}
         people={people}
         isAdmin={isAdmin}
-        onClose={() => setSelectedPerson(null)}
+        onClose={handleClosePerson}
         onSelectPerson={handleSelectPersonById}
         onFocusInTree={handleFocusInTree}
         onDeletePerson={handleDeletePersonGlobal}
         onEditPerson={(p) => {
-          setSelectedPerson(null);
-          setCurrentPage('admin');
+          handleClosePerson();
+          handleNavigate('admin');
         }}
       />
 
@@ -307,10 +428,7 @@ export default function App() {
                 />
               </div>
               <button
-                onClick={() => {
-                  setIsSearchOpen(false);
-                  setQuickQuery('');
-                }}
+                onClick={() => handleToggleSearch(false)}
                 className="p-1 text-gray-400 hover:text-[#1a1a1a]"
               >
                 <X className="w-5 h-5" />
@@ -325,9 +443,8 @@ export default function App() {
                   <button
                     key={p.id}
                     onClick={() => {
-                      setSelectedPerson(p);
-                      setIsSearchOpen(false);
-                      setQuickQuery('');
+                      handleSelectPerson(p);
+                      handleToggleSearch(false);
                     }}
                     className="w-full p-3 rounded bg-white hover:bg-gray-100 border border-gray-200 flex items-center justify-between text-left transition-colors"
                   >
@@ -402,7 +519,7 @@ export default function App() {
       {/* PDF & Book Export Modal */}
       <PdfExportModal
         isOpen={isPdfModalOpen}
-        onClose={() => setIsPdfModalOpen(false)}
+        onClose={() => handleTogglePdfModal(false)}
         people={people}
         branches={branches}
         stats={stats}
@@ -411,7 +528,7 @@ export default function App() {
       {/* 1-Tap Mobile App Install Modal */}
       <InstallModal
         isOpen={isInstallModalOpen}
-        onClose={() => setIsInstallModalOpen(false)}
+        onClose={() => handleToggleInstallModal(false)}
         deferredPrompt={deferredPrompt}
         onInstallSuccess={() => setDeferredPrompt(null)}
       />

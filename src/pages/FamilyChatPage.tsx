@@ -131,6 +131,24 @@ export const FamilyChatPage: React.FC<FamilyChatPageProps> = ({
     }
   }, []);
 
+  // Handle mobile back button for internal chat modals
+  useEffect(() => {
+    const hasOpenModal = showPinModal || showRestrictedModal || Boolean(deleteTarget) || Boolean(restrictTarget);
+    if (hasOpenModal) {
+      const handleChatPopState = (e: PopStateEvent) => {
+        setShowPinModal(false);
+        setShowRestrictedModal(false);
+        setDeleteTarget(null);
+        setRestrictTarget(null);
+      };
+
+      window.addEventListener('popstate', handleChatPopState, { once: true });
+      return () => {
+        window.removeEventListener('popstate', handleChatPopState);
+      };
+    }
+  }, [showPinModal, showRestrictedModal, deleteTarget, restrictTarget]);
+
   // Load restricted users list
   const loadRestrictedUsers = async () => {
     try {
@@ -205,9 +223,35 @@ export const FamilyChatPage: React.FC<FamilyChatPageProps> = ({
     }
   };
 
-  // Real-time Fast Auto-Sync (Every 1.5 seconds) + Focus event
+  // Real-time Fast Auto-Sync (Instant SSE Push + 1.5s Polling fallback) + Focus event
   useEffect(() => {
     fetchMessages();
+
+    // 1. Instant SSE Real-time Push Stream across all mobile devices & browsers
+    const unsubscribeSse = api.subscribeToChatStream((event) => {
+      if (event.type === 'NEW_MESSAGE' && event.data) {
+        setMessages((prev) => {
+          if (prev.some((m) => m.id === event.data.id)) return prev;
+          const updated = [...prev, event.data].sort((a, b) => {
+            if (a.pinned && !b.pinned) return -1;
+            if (!a.pinned && b.pinned) return 1;
+            return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
+          });
+          return updated;
+        });
+
+        if (event.data.senderName !== senderName) {
+          triggerMessageNotification(event.data.senderName, event.data.text);
+        }
+        setTimeout(() => scrollToBottom(true), 120);
+      } else if (event.type === 'DELETE_MESSAGE' && event.data?.id) {
+        setMessages((prev) => prev.filter((m) => m.id !== event.data.id));
+      } else {
+        fetchMessages(true);
+      }
+    });
+
+    // 2. Fast background auto-poll fallback
     const interval = setInterval(() => {
       fetchMessages(true);
     }, 1500);
@@ -220,6 +264,7 @@ export const FamilyChatPage: React.FC<FamilyChatPageProps> = ({
     document.addEventListener('visibilitychange', handleFocus);
 
     return () => {
+      unsubscribeSse();
       clearInterval(interval);
       window.removeEventListener('focus', handleFocus);
       document.removeEventListener('visibilitychange', handleFocus);

@@ -105,7 +105,59 @@ async function startServer() {
   const app = express();
   app.use(express.json({ limit: '10mb' }));
 
+  // SSE Connected clients list for instant real-time sync across all mobile devices
+  const sseClients = new Set<Response>();
+
+  function broadcastChat(type: string, data?: any) {
+    const payload = JSON.stringify({ type, data, timestamp: new Date().toISOString() });
+    for (const client of sseClients) {
+      try {
+        client.write(`data: ${payload}\n\n`);
+      } catch (err) {
+        sseClients.delete(client);
+      }
+    }
+  }
+
+  // Universal CORS & Preflight handling
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-admin-pin, x-pin, Cache-Control, Pragma');
+    if (req.method === 'OPTIONS') {
+      return res.status(200).end();
+    }
+    next();
+  });
+
+  // Aggressive No-Cache headers for all API requests to ensure multi-device instant sync
+  app.use('/api', (req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('Surrogate-Control', 'no-store');
+    next();
+  });
+
   // --- API ROUTES ---
+
+  // Real-time Server-Sent Events (SSE) stream for instant chat updates across devices
+  app.get('/api/messages/stream', (req, res) => {
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache, no-transform');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('X-Accel-Buffering', 'no');
+    res.flushHeaders?.();
+
+    sseClients.add(res);
+
+    // Initial greeting / handshake
+    res.write(`data: ${JSON.stringify({ type: 'CONNECTED', total: db.messages?.length || 0 })}\n\n`);
+
+    req.on('close', () => {
+      sseClients.delete(res);
+    });
+  });
 
   // Health check
   app.get('/api/health', (req, res) => {
@@ -239,6 +291,7 @@ async function startServer() {
     }
 
     saveDatabase(db);
+    broadcastChat('NEW_MESSAGE', newMessage);
 
     return res.status(201).json({ success: true, message: newMessage });
   });
@@ -274,6 +327,7 @@ async function startServer() {
       action: 'MESSAGE_DELETED',
     });
     saveDatabase(db);
+    broadcastChat('DELETE_MESSAGE', { id });
     return res.json({ success: true, message: 'Message permanently deleted from database for all users.' });
   };
 
@@ -306,6 +360,7 @@ async function startServer() {
     if (!msg) return res.status(404).json({ error: 'Message not found' });
     msg.pinned = !msg.pinned;
     saveDatabase(db);
+    broadcastChat('PIN_MESSAGE', { id, pinned: msg.pinned });
     return res.json({ success: true, pinned: msg.pinned });
   });
 
@@ -345,6 +400,7 @@ async function startServer() {
     }
 
     saveDatabase(db);
+    broadcastChat('RESTRICT_USER', { userName: cleanName });
     return res.json({ success: true, message: `User "${cleanName}" has been restricted from sending messages.`, restrictedUsers: db.restrictedUsers });
   });
 
@@ -362,6 +418,7 @@ async function startServer() {
     );
 
     saveDatabase(db);
+    broadcastChat('UNRESTRICT_USER', { userName });
     return res.json({ success: true, message: `User "${userName}" restriction has been lifted.`, restrictedUsers: db.restrictedUsers });
   });
 

@@ -44,6 +44,9 @@ async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise
   const token = getAdminToken();
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0',
     ...(options.headers as Record<string, string>),
   };
 
@@ -52,6 +55,7 @@ async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise
   }
 
   const response = await fetch(endpoint, {
+    cache: 'no-store', // Always bypass browser / disk / mobile cache
     ...options,
     headers,
   });
@@ -437,42 +441,67 @@ export const api = {
     }
   },
 
-  // Family Group Messages
+  // Family Group Messages - Real-time Central Server Synchronization
   getMessages: async (): Promise<ChatMessage[]> => {
     try {
-      const res = await fetchApi<{ messages: ChatMessage[]; total: number }>('/api/messages');
-      return res.messages || [];
+      const res = await fetchApi<{ messages: ChatMessage[]; total: number }>(`/api/messages?_t=${Date.now()}`);
+      if (res && Array.isArray(res.messages)) {
+        return res.messages;
+      }
+      return [];
     } catch (e) {
+      console.warn('Network issue fetching live messages, falling back to local copy:', e);
       const db = getLocalDatabase();
       return db.messages || [];
     }
   },
 
   sendMessage: async (senderName: string, text: string, senderBranch?: string, isVerified?: boolean, pin?: string): Promise<ChatMessage> => {
-    try {
-      const res = await fetchApi<{ success: boolean; message: ChatMessage }>('/api/messages', {
-        method: 'POST',
-        body: JSON.stringify({ senderName, text, senderBranch, isVerified, pin }),
-      });
-      return res.message;
-    } catch (e) {
-      const db = getLocalDatabase();
-      if (!db.messages) db.messages = [];
-      const isOfficial = pin === '0000000000' || isVerified || senderName.trim().toLowerCase() === 'sadaqat zeb khan';
-      const newMsg: ChatMessage = {
-        id: `msg_local_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
-        senderName: isOfficial ? 'Sadaqat Zeb Khan' : senderName.trim(),
-        senderBranch: senderBranch?.trim() || null,
-        text: text.trim(),
-        timestamp: new Date().toISOString(),
-        pinned: false,
-        isVerified: isOfficial,
-        likes: 0,
-      };
-      db.messages.push(newMsg);
-      saveLocalDatabase(db);
-      return newMsg;
+    // Send directly to the central database server so all family members on any mobile device can see it instantly
+    const res = await fetchApi<{ success: boolean; message: ChatMessage }>('/api/messages', {
+      method: 'POST',
+      body: JSON.stringify({ senderName, text, senderBranch, isVerified, pin }),
+    });
+
+    if (!res || !res.message) {
+      throw new Error('Server did not return a saved message confirmation.');
     }
+
+    return res.message;
+  },
+
+  // Real-time EventSource Stream Listener (SSE) for instant cross-device updates
+  subscribeToChatStream: (onEvent: (event: { type: string; data?: any; timestamp: string }) => void): (() => void) => {
+    let eventSource: EventSource | null = null;
+    let isClosed = false;
+
+    try {
+      eventSource = new EventSource('/api/messages/stream');
+
+      eventSource.onmessage = (event) => {
+        if (isClosed) return;
+        try {
+          const parsed = JSON.parse(event.data);
+          onEvent(parsed);
+        } catch (err) {
+          console.error('Error parsing SSE chat message:', err);
+        }
+      };
+
+      eventSource.onerror = (err) => {
+        // EventSource will automatically attempt reconnection
+        console.debug('SSE connection state change:', err);
+      };
+    } catch (e) {
+      console.warn('SSE not supported or failed to initialize, relying on fast auto-polling:', e);
+    }
+
+    return () => {
+      isClosed = true;
+      if (eventSource) {
+        eventSource.close();
+      }
+    };
   },
 
   deleteMessage: async (id: string, pin?: string): Promise<{ success: boolean }> => {
