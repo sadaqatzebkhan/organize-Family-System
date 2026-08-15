@@ -60,18 +60,30 @@ async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise
     headers,
   });
 
+  const rawText = await response.text();
+
   if (!response.ok) {
-    let errorMsg = 'An error occurred';
-    try {
-      const errData = await response.json();
-      errorMsg = errData.error || errorMsg;
-    } catch (e) {
-      errorMsg = await response.text();
+    let errorMsg = `Request failed with status ${response.status}`;
+    if (rawText) {
+      try {
+        const errData = JSON.parse(rawText);
+        errorMsg = errData.error || errData.message || rawText;
+      } catch {
+        errorMsg = rawText;
+      }
     }
     throw new Error(errorMsg);
   }
 
-  return response.json();
+  if (!rawText || rawText.trim() === '') {
+    return {} as T;
+  }
+
+  try {
+    return JSON.parse(rawText) as T;
+  } catch (err) {
+    throw new Error(`Invalid response from server: ${rawText.slice(0, 100)}`);
+  }
 }
 
 export const api = {
@@ -504,10 +516,11 @@ export const api = {
     };
   },
 
-  deleteMessage: async (id: string, pin?: string): Promise<{ success: boolean }> => {
+  deleteMessage: async (id: string, pin?: string, senderName?: string): Promise<{ success: boolean }> => {
     try {
       const headers: Record<string, string> = {};
       if (pin) headers['x-admin-pin'] = pin;
+      if (senderName) headers['x-sender-name'] = encodeURIComponent(senderName);
       return await fetchApi<{ success: boolean }>(`/api/messages/${id}`, {
         method: 'DELETE',
         headers,
@@ -516,10 +529,11 @@ export const api = {
       try {
         const headers: Record<string, string> = {};
         if (pin) headers['x-admin-pin'] = pin;
+        if (senderName) headers['x-sender-name'] = encodeURIComponent(senderName);
         return await fetchApi<{ success: boolean }>(`/api/messages/${id}/delete`, {
           method: 'POST',
           headers,
-          body: JSON.stringify({ pin }),
+          body: JSON.stringify({ pin, senderName }),
         });
       } catch (err) {
         console.error('Delete message server error, applying local fallback:', err);

@@ -299,6 +299,9 @@ async function startServer() {
   // Permanently Delete Message (Sadaqat Zeb Khan / Admin can delete any message, users can delete their own)
   const handleDeleteMessage = (req: Request, res: Response) => {
     const { id } = req.params;
+    const rawSender = (req.body?.senderName || req.headers['x-sender-name'] || '') as string;
+    const senderName = rawSender ? decodeURIComponent(rawSender).trim() : '';
+
     if (!db.messages) db.messages = [];
     if (!db.messageLogs) db.messageLogs = [];
 
@@ -314,12 +317,21 @@ async function startServer() {
     }
 
     const msgToDelete = db.messages[msgIndex];
+    const isModerator = isAuthorizedModerator(req);
+    const isOwner = senderName && msgToDelete.senderName.trim().toLowerCase() === senderName.toLowerCase();
+
+    // Normal users can only delete their own message; Sadaqat Zeb Khan / Admin can delete any message
+    if (!isModerator && !isOwner && senderName) {
+      return res.status(403).json({ error: 'You are only authorized to delete your own messages.' });
+    }
+
     db.messages.splice(msgIndex, 1);
 
     db.messageLogs.unshift({
       id: `mlog_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
       messageId: id,
       senderName: msgToDelete?.senderName || 'Unknown',
+      deletedBy: isModerator ? 'Sadaqat Zeb Khan (Administrator)' : (senderName || msgToDelete?.senderName),
       text: msgToDelete?.text || '',
       timestamp: new Date().toISOString(),
       ipAddress: ip,

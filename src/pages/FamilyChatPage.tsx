@@ -388,8 +388,13 @@ export const FamilyChatPage: React.FC<FamilyChatPageProps> = ({
     setDeleteTarget(null);
 
     try {
-      await api.deleteMessage(targetId, isVerifiedUser ? '0000000000' : enteredPin);
-      setStatusFeedback('Message permanently deleted from database for all users.');
+      const activeSender = isVerifiedUser ? 'Sadaqat Zeb Khan' : senderName.trim();
+      await api.deleteMessage(
+        targetId,
+        isVerifiedUser ? '0000000000' : enteredPin,
+        activeSender
+      );
+      setStatusFeedback('Message permanently deleted for all users.');
       setTimeout(() => setStatusFeedback(null), 2500);
       fetchMessages(true);
     } catch (e: any) {

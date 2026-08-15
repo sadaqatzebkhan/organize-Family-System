@@ -64,6 +64,7 @@ export interface ChatMessageLog {
   id: string;
   messageId: string;
   senderName: string;
+  deletedBy?: string;
   text: string;
   timestamp: string;
   ipAddress: string;
