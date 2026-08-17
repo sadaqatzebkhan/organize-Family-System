@@ -1,5 +1,5 @@
 // Service Worker for Mazid Khail Family Archive PWA
-const CACHE_NAME = 'mazid-khail-cache-v3';
+const CACHE_NAME = 'mazid-khail-cache-v4';
 const PRECACHE_ASSETS = [
   '/',
   '/index.html',
