@@ -63,13 +63,18 @@ async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise
   const rawText = await response.text();
 
   if (!response.ok) {
-    let errorMsg = `Request failed with status ${response.status}`;
+    let errorMsg = `Server response (${response.status})`;
     if (rawText) {
       try {
         const errData = JSON.parse(rawText);
-        errorMsg = errData.error || errData.message || rawText;
+        errorMsg = errData.error || errData.message || errorMsg;
       } catch {
-        errorMsg = rawText;
+        // If rawText is HTML or edge proxy message (like NOT_FOUND bom1::...), make it human friendly
+        if (rawText.includes('NOT_FOUND') || rawText.includes('<html') || rawText.includes('<!DOCTYPE')) {
+          errorMsg = 'Network synchronization in progress. Please retry.';
+        } else {
+          errorMsg = rawText.slice(0, 150);
+        }
       }
     }
     throw new Error(errorMsg);
@@ -82,6 +87,9 @@ async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise
   try {
     return JSON.parse(rawText) as T;
   } catch (err) {
+    if (rawText.includes('NOT_FOUND') || rawText.includes('<html')) {
+      throw new Error('Connection re-establishing. Please try again.');
+    }
     throw new Error(`Invalid response from server: ${rawText.slice(0, 100)}`);
   }
 }
@@ -469,17 +477,37 @@ export const api = {
   },
 
   sendMessage: async (senderName: string, text: string, senderBranch?: string, isVerified?: boolean, pin?: string): Promise<ChatMessage> => {
-    // Send directly to the central database server so all family members on any mobile device can see it instantly
-    const res = await fetchApi<{ success: boolean; message: ChatMessage }>('/api/messages', {
-      method: 'POST',
-      body: JSON.stringify({ senderName, text, senderBranch, isVerified, pin }),
-    });
+    const payload = JSON.stringify({ senderName, text, senderBranch, isVerified, pin });
+    let lastError: any = null;
 
-    if (!res || !res.message) {
-      throw new Error('Server did not return a saved message confirmation.');
+    // Try primary endpoint first
+    try {
+      const res = await fetchApi<{ success: boolean; message: ChatMessage }>('/api/messages', {
+        method: 'POST',
+        body: payload,
+      });
+      if (res && res.message) {
+        return res.message;
+      }
+    } catch (err) {
+      lastError = err;
     }
 
-    return res.message;
+    // Try secondary endpoint with small delay
+    await new Promise((r) => setTimeout(r, 300));
+    try {
+      const res2 = await fetchApi<{ success: boolean; message: ChatMessage }>('/api/messages/send', {
+        method: 'POST',
+        body: payload,
+      });
+      if (res2 && res2.message) {
+        return res2.message;
+      }
+    } catch (err2) {
+      lastError = err2;
+    }
+
+    throw lastError || new Error('Could not send message. Please check your internet connection.');
   },
 
   // Real-time EventSource Stream Listener (SSE) for instant cross-device updates

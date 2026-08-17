@@ -468,7 +468,6 @@ export const initialPeople: Person[] = [
   { id: 'p_zakria_khan', fullName: 'Zakria Khan', fatherId: 'p_nawshad_khan', generation: 5, branchId: 'branch_anwar_faraz', aliveStatus: 'alive', createdAt: now, updatedAt: now },
 
   // Sons of Walayat Khan
-  { id: 'p_shakir_ullah', fullName: 'Shakir Ullah', fatherId: 'p_walayat_khan', generation: 5, branchId: 'branch_anwar_faraz', aliveStatus: 'alive', createdAt: now, updatedAt: now },
   { id: 'p_imran_shahid', fullName: 'Imran Shahid', fatherId: 'p_walayat_khan', generation: 5, branchId: 'branch_anwar_faraz', aliveStatus: 'alive', createdAt: now, updatedAt: now },
   { id: 'p_kamran_shahid', fullName: 'Kamran Shahid', fatherId: 'p_walayat_khan', generation: 5, branchId: 'branch_anwar_faraz', aliveStatus: 'alive', createdAt: now, updatedAt: now },
   { id: 'p_adnan_shahid', fullName: 'Adnan Shahid', fatherId: 'p_walayat_khan', generation: 5, branchId: 'branch_anwar_faraz', aliveStatus: 'alive', createdAt: now, updatedAt: now },

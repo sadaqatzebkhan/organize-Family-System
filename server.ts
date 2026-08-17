@@ -34,6 +34,17 @@ function loadDatabase(): FamilyDatabase {
           },
         ];
       }
+      // Ensure removed records are purged on load
+      if (loadedDb.people) {
+        loadedDb.people = loadedDb.people.filter(
+          (p) => p.id !== 'p_shakir_ullah' && p.fullName?.trim().toLowerCase() !== 'shakir ullah'
+        );
+      }
+      if (loadedDb.relationships) {
+        loadedDb.relationships = loadedDb.relationships.filter(
+          (r) => r.personId1 !== 'p_shakir_ullah' && r.personId2 !== 'p_shakir_ullah'
+        );
+      }
       return loadedDb;
     }
   } catch (err) {
@@ -142,7 +153,7 @@ async function startServer() {
   // --- API ROUTES ---
 
   // Real-time Server-Sent Events (SSE) stream for instant chat updates across devices
-  app.get('/api/messages/stream', (req, res) => {
+  app.get(['/api/messages/stream', '/api/chat/stream'], (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache, no-transform');
     res.setHeader('Connection', 'keep-alive');
@@ -154,7 +165,17 @@ async function startServer() {
     // Initial greeting / handshake
     res.write(`data: ${JSON.stringify({ type: 'CONNECTED', total: db.messages?.length || 0 })}\n\n`);
 
+    // Keep-alive heartbeat every 15s to prevent proxy termination / timeouts
+    const heartbeat = setInterval(() => {
+      try {
+        res.write(': ping\n\n');
+      } catch {
+        clearInterval(heartbeat);
+      }
+    }, 15000);
+
     req.on('close', () => {
+      clearInterval(heartbeat);
       sseClients.delete(res);
     });
   });
@@ -212,7 +233,7 @@ async function startServer() {
   }
 
   // Messages CRUD & Public Group Chat
-  app.get('/api/messages', (req, res) => {
+  app.get(['/api/messages', '/api/messages/list'], (req, res) => {
     if (!db.messages) db.messages = [];
     res.json({
       messages: db.messages,
@@ -220,7 +241,7 @@ async function startServer() {
     });
   });
 
-  app.post('/api/messages', (req, res) => {
+  app.post(['/api/messages', '/api/messages/send', '/api/messages/new'], (req, res) => {
     let { senderName, senderBranch, text, pin, isVerified } = req.body;
     if (pin === '0000000000' || isVerified === true) {
       senderName = 'Sadaqat Zeb Khan';

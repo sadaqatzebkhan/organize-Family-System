@@ -353,6 +353,7 @@ export const FamilyChatPage: React.FC<FamilyChatPageProps> = ({
       setTimeout(() => scrollToBottom(true), 100);
     } catch (e: any) {
       setStatusFeedback(e.message || 'Failed to send message');
+      setTimeout(() => setStatusFeedback(null), 4000);
     } finally {
       setIsSending(false);
     }

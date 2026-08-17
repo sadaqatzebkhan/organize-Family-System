@@ -733,16 +733,6 @@
       "updatedAt": "2026-08-10T01:30:19.372Z"
     },
     {
-      "id": "p_shakir_ullah",
-      "fullName": "Shakir Ullah",
-      "fatherId": "p_walayat_khan",
-      "generation": 5,
-      "branchId": "branch_anwar_faraz",
-      "aliveStatus": "alive",
-      "createdAt": "2026-08-10T01:30:19.372Z",
-      "updatedAt": "2026-08-10T01:30:19.372Z"
-    },
-    {
       "id": "p_imran_shahid",
       "fullName": "Imran Shahid",
       "fatherId": "p_walayat_khan",
@@ -1355,13 +1345,6 @@
       "type": "parent_child",
       "personId1": "p_nawshad_khan",
       "personId2": "p_zakria_khan",
-      "createdAt": "2026-08-10T01:30:19.372Z"
-    },
-    {
-      "id": "rel_p_walayat_khan_p_shakir_ullah",
-      "type": "parent_child",
-      "personId1": "p_walayat_khan",
-      "personId2": "p_shakir_ullah",
       "createdAt": "2026-08-10T01:30:19.372Z"
     },
     {
